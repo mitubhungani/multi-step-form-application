@@ -1,0 +1,534 @@
+MULTI-STEP-FORM-APPLICATION
+├── app/
+│   ├── (sidebar)/
+│   │   ├── dashboard/
+│   │   │   └── page.tsx
+│   │   ├── personal-info/
+│   │   │   ├── _basicinformationform.tsx
+│   │   │   └── page.tsx
+│   │   ├── education-info/
+│   │   │   ├── _educationinformationform.tsx
+│   │   │   └── page.tsx
+│   │   ├── residential-info/
+│   │   │   ├── _addressinformationform.tsx
+│   │   │   └── page.tsx
+│   │   ├── terms-and-conditions/
+│   │   │   ├── _t&cform.tsx
+│   │   │   └── page.tsx
+│   │   └── page.tsx
+│   ├── favicon.ico
+│   ├── globals.css
+│   ├── layout.tsx
+│   └── page.tsx
+├── components/
+│   ├── app-sidebar.tsx
+│   ├── nav-main.tsx
+│   ├── nav-projects.tsx
+│   ├── team-switcher.tsx
+│   └── ui/
+│       └── (other UI components)
+├── hooks/
+│   ├── localstorage.tsx
+│   └── use-mobile.ts
+├── lib/
+├── node_modules/
+└── public/
+
+
+
+
+
+// dashboard/page.tsx
+"use client";
+import React from "react";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import {
+  Table,
+  TableHeader,
+  TableBody,
+  TableRow,
+  TableHead,
+  TableCell,
+} from "@/components/ui/table";
+import { useUserData } from "@/hooks/localstorage";
+import { toast } from "sonner";
+
+const Dashboard = () => {
+  const { resetUserData, address, basic, education, terms } = useUserData();
+  const router = useRouter();
+
+  const navigateTo = (path: string) => router.push(path);
+
+  const renderTable = (
+    title: string,
+    data: any,
+    filled: boolean | undefined,
+    path: string
+  ) => (
+    <div className="mb-8 border rounded-md p-4 shadow-sm bg-white">
+      <div className="flex justify-between items-center mb-4">
+        <h3 className="text-lg font-semibold text-gray-800">{title}</h3>
+        <Button variant="outline" onClick={() => navigateTo(path)}>
+          View Details
+        </Button>
+      </div>
+
+      {filled ? (
+        <div className="overflow-x-auto">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                {data &&
+                  Object.keys(data).map((key) => {
+                    if (key === "filled") return null;
+                    return (
+                      <TableHead key={key} className="capitalize text-gray-600">
+                        {key}
+                      </TableHead>
+                    );
+                  })}
+                <TableHead className="text-gray-600">Status</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              <TableRow>
+                {data &&
+                  Object.entries(data).map(([key, val], idx) => {
+                    if (key === "filled") return null;
+                    return (
+                      <TableCell key={idx} className="text-gray-700">
+                        {String(val)}
+                      </TableCell>
+                    );
+                  })}
+                <TableCell className="text-green-600 font-medium">
+                  Filled
+                </TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </div>
+      ) : (
+        <p className="text-red-500 italic">Status: Not Filled</p>
+      )}
+    </div>
+  );
+
+  const totalForms = 4;
+  const filledForms = [
+    basic?.filled,
+    education?.filled,
+    address?.filled,
+    terms?.filled,
+  ].filter(Boolean).length;
+  const percentage = Math.round((filledForms / totalForms) * 100);
+
+  const completeForm = () => {
+    const comp = () => {
+      if (!basic?.filled) return "/personal-info/basicinformationform";
+      else if (!education?.filled) return "/personal-info/educationinformationform";
+      else if (!address?.filled)
+        return "/residential-info/addressinformationform";
+      else return "/residential-info/termsandconditionsform";
+    };
+    router.push(comp());
+  };
+
+  const resetForm = () => {
+    resetUserData();
+    toast.success("From Reset Successfully!");
+  };
+
+  return (
+    <div className="container mx-auto p-6 bg-gray-50 min-h-screen">
+      <div className="bg-white rounded-lg shadow-lg p-6 mb-8">
+        <h2 className="text-2xl font-bold mb-4 text-gray-800">
+          Form Completion Status
+        </h2>
+        <div className="flex items-center gap-4 mb-6">
+          <div className="w-full bg-gray-200 rounded-full h-2.5">
+            <div
+              className={`h-2.5 rounded-full ${
+                percentage === 100 ? "bg-green-600" : "bg-blue-500"
+              }`}
+              style={{ width: `${percentage}%` }}
+            ></div>
+          </div>
+          <span className="text-sm font-medium text-gray-700">
+            {percentage}% ({filledForms}/{totalForms})
+          </span>
+        </div>
+
+        <div className="flex gap-4">
+          <Button
+            onClick={completeForm}
+            disabled={percentage === 100}
+            className={
+              percentage === 100 ? "opacity-50 cursor-not-allowed" : ""
+            }
+          >
+            {percentage === 100 ? "Form Complete" : "Continue Filling Form"}
+          </Button>
+          <Button variant="destructive" onClick={resetForm}>
+            Reset Form
+          </Button>
+        </div>
+      </div>
+
+      <div className="mb-8">
+        <h2 className="text-xl font-bold mb-4 text-gray-800">Personal Info</h2>
+        {renderTable(
+          "Basic Information",
+          basic,
+          basic?.filled,
+          "/personal-info/basicinformationform"
+        )}
+        {renderTable(
+          "Education Information",
+          education,
+          education?.filled,
+          "/personal-info/educationinformationform"
+        )}
+      </div>
+
+      <div>
+        <h2 className="text-xl font-bold mb-4 text-gray-800">
+          Residential Info
+        </h2>
+        {renderTable(
+          "Address Information",
+          address,
+          address?.filled,
+          "/residential-info/addressinformationform"
+        )}
+        {renderTable(
+          "Terms & Conditions",
+          { Accepted: terms?.filled ? "Yes" : "No" },
+          terms?.filled,
+          "/residential-info/termsandconditionsform"
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default Dashboard;
+
+
+// components/app-sidebar.tsx
+"use client"
+
+import * as React from "react"
+import {
+  GalleryVerticalEnd,
+  PieChart,
+  SquareTerminal,
+} from "lucide-react"
+
+import { NavMain } from "@/components/nav-main"
+import { TeamSwitcher } from "@/components/team-switcher"
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarHeader,
+  SidebarRail,
+} from "@/components/ui/sidebar"
+import { NavProjects } from "./nav-projects"
+
+// This is sample data.
+const data = {
+  teams: [
+    {
+      name: "Multi Step Form",
+      logo: GalleryVerticalEnd,
+      plan: "Forms",
+    },
+  ],
+  navMain: [
+    {
+      title: "Personal Information",
+      url: "#",
+      icon: SquareTerminal,
+      isActive: true,
+      items: [
+        {
+          title: "Basic Information Form",
+          url: "/personal-info/basicinformationform",
+        },
+        {
+          title: "Education Information Form",
+          url: "/personal-info/educationinformationform",
+        },
+      ],
+    },
+    {
+        title: "Residential Information",
+        url: "#",
+        icon: SquareTerminal,
+        isActive: true,
+        items: [
+          {
+            title: "Address Information Form",
+            url: "/residential-info/addressinformationform",
+          },
+          {
+            title: "Terms And Conditions Form",
+            url: "/residential-info/termsandconditionsform",
+          },
+        ],
+      },
+  ],
+  projects: [
+    {
+      name: "Dashboard",
+      url: "/dashboard",
+      icon: PieChart,
+    },
+  ],
+}
+
+export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  return (
+    <Sidebar collapsible="icon" {...props}>
+      <SidebarHeader>
+        <TeamSwitcher teams={data.teams} />
+      </SidebarHeader>
+      <SidebarContent>
+        <NavProjects projects={data.projects} />
+      </SidebarContent>
+      <SidebarContent>
+        <NavMain items={data.navMain} />
+      </SidebarContent>
+      <SidebarRail />
+    </Sidebar>
+  )
+}
+
+
+
+
+
+// /components/nav-main.tsx
+"use client";
+
+import { ChevronRight, type LucideIcon } from "lucide-react";
+
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
+import {
+  SidebarGroup,
+  SidebarGroupLabel,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarMenuSub,
+  SidebarMenuSubButton,
+  SidebarMenuSubItem,
+} from "@/components/ui/sidebar";
+import Link from "next/link";
+import { useUserData } from "@/hooks/localstorage";
+import { Button } from "./ui/button";
+// import { useEffect } from "react";
+
+export function NavMain({
+  items,
+}: {
+  items: {
+    title: string;
+    url: string;
+    icon?: LucideIcon;
+    isActive?: boolean;
+    items?: {
+      title: string;
+      url: string;
+    }[];
+  }[];
+}) {
+  const { address, education, terms } = useUserData();
+  // const route = useRouter()
+
+  const isFilled = (url: string) => {
+    switch (url) {
+      case "/personal-info/educationinformationform":
+        return !education?.filled;
+      case "/residential-info/addressinformationform":
+        return !address?.filled;
+      case "/residential-info/termsandconditionsform":
+        return !terms?.filled;
+      default:
+    }
+  };
+
+  // useEffect(() => {
+  //   const localData = JSON.parse(localStorage.getItem("User-Data") || "{}");
+  //   if (localData["personal-info"]?.basicinformationform?.filled) {
+  //     items.forEach((item) => {
+  //       isFilled(item.url);
+  //     });
+  //   }
+  //   console.log(localData);
+  // }, []);
+
+  return (
+    <SidebarGroup>
+      <SidebarGroupLabel>Forms</SidebarGroupLabel>
+      <SidebarMenu>
+        {items.map((item) => (
+          <Collapsible
+            key={item.title}
+            asChild
+            defaultOpen={item.isActive}
+            className="group/collapsible"
+          >
+            <SidebarMenuItem>
+              <CollapsibleTrigger asChild>
+                <SidebarMenuButton tooltip={item.title}>
+                  {item.icon && <item.icon />}
+                  <span>{item.title}</span>
+                  <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                </SidebarMenuButton>
+              </CollapsibleTrigger>
+              <CollapsibleContent>
+                <SidebarMenuSub>
+                  {item.items?.map((Item) => (
+                    <SidebarMenuSubItem key={Item.title}>
+                      <SidebarMenuSubButton asChild>
+                        {isFilled(Item.url) ? (
+                          <Button variant="ghost">
+                            <span className="text-red-400">{Item.title}</span>
+                          </Button>
+                        ) : (
+                          <Link href={Item.url} className="text-black">
+                            {Item.title}
+                          </Link>
+                        )}
+                      </SidebarMenuSubButton>
+                    </SidebarMenuSubItem>
+                  ))}
+                </SidebarMenuSub>
+              </CollapsibleContent>
+            </SidebarMenuItem>
+          </Collapsible>
+        ))}
+      </SidebarMenu>
+    </SidebarGroup>
+  );
+}
+
+
+// /components/nav-projects.tsx
+"use client"
+
+import { type LucideIcon } from "lucide-react"
+
+import {
+  SidebarGroup,
+  SidebarGroupLabel,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+} from "@/components/ui/sidebar"
+import Link from "next/link"
+
+export function NavProjects({
+  projects,
+}: {
+  projects: {
+    name: string
+    url: string
+    icon: LucideIcon
+  }[]
+}) {
+  return (
+    <SidebarGroup>
+      <SidebarGroupLabel>Dashboard</SidebarGroupLabel>
+      <SidebarMenu>
+        {projects.map((item) => (
+          <SidebarMenuItem key={item.name}>
+            <SidebarMenuButton tooltip={item.name} asChild>
+              <Link href={item.url} className="flex items-center gap-2">
+                <item.icon className="size-4" />
+                <span>{item.name}</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        ))}
+      </SidebarMenu>
+    </SidebarGroup>
+  )
+}
+
+
+// /hooks/localstorage.tsx
+"use client";
+
+import { useEffect, useState } from "react";
+
+interface BasicInformationForm {
+  email: string;
+  filled: boolean;
+  gender: string;
+  password?: string;
+  username: string;
+}
+
+interface EducationInformationForm {
+  cgpa: number;
+  degree: string;
+  filled: boolean;
+  passingYear: number;
+  university: string;
+}
+
+interface AddressInformationForm {
+  address: string;
+  city: string;
+  filled: boolean;
+  postalCode: number;
+  state: string;
+}
+
+interface TermsAndConditionsForm {
+  filled: boolean;
+}
+
+interface UserData {
+  "personal-info"?: {
+    basicinformationform: BasicInformationForm;
+    educationinformationform: EducationInformationForm;
+  };
+  "residential-info"?: {
+    addressinformationform: AddressInformationForm;
+    termsandconditionsform?: TermsAndConditionsForm;
+  };
+}
+
+export function useUserData() {
+  const [userData, setUserData] = useState<UserData>({});
+
+  useEffect(() => {
+    try {
+      const data = JSON.parse(localStorage.getItem("User-Data") || "{}");
+      setUserData(data);
+    } catch (error) {
+      console.error("Failed to parse user data:", error);
+      setUserData({});
+    }
+  }, []);
+
+  const resetUserData = () => {
+    localStorage.removeItem("User-Data");
+    setUserData({});
+  };
+
+  const basic = userData["personal-info"]?.basicinformationform;
+  const education = userData["personal-info"]?.educationinformationform;
+  const address = userData["residential-info"]?.addressinformationform;
+  const terms = userData["residential-info"]?.termsandconditionsform;
+
+  return { userData, basic, education, address, terms, resetUserData };
+}
