@@ -1,12 +1,12 @@
-import React from 'react'
-import AddressInfoForm from './_addressinfoform'
+import React from "react";
+import AddressInfoForm from "./_addressinfoform";
 
 const AddressForm = () => {
   return (
     <div>
-      <AddressInfoForm/>
+      <AddressInfoForm />
     </div>
-  )
-}
+  );
+};
 
-export default AddressForm
+export default AddressForm;

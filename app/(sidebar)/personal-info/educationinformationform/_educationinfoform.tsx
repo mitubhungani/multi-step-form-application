@@ -268,7 +268,6 @@ type EducationFormData = z.infer<typeof educationSchema>;
 export default function EducationInfoForm() {
   const router = useRouter();
 
-  // Pull both the stored data and the action to save new data
   const basicInfo = useBasicInformationForm((s) => s.basic);
   const { basic: eduInfo, addFormValues } = useEducationInformationForm();
   const addressInfo = useAddressInformationForm((s) => s.basic);
@@ -284,14 +283,7 @@ export default function EducationInfoForm() {
     resolver: zodResolver(educationSchema)
   });
 
-  useEffect(() => {
-    if (eduInfo) {
-      reset({
-        ...eduInfo,
-        degree: eduInfo.degree as "bca" | "mca" | "btech" | "bcom",
-      });
-    }
-  }, [eduInfo, reset]);
+
 
   const onSubmit = (data: EducationFormData) => {
     addFormValues({ ...data, filled: true });
@@ -306,6 +298,15 @@ export default function EducationInfoForm() {
       router.push("/dashboard");
     }
   };
+
+  useEffect(() => {
+    if (eduInfo) {
+      reset({
+        ...eduInfo,
+        degree: eduInfo.degree as "bca" | "mca" | "btech" | "bcom",
+      });
+    }
+  }, [eduInfo, reset]);
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 px-4">

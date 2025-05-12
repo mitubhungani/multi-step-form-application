@@ -256,29 +256,17 @@ const BasicInformationForm = () => {
     resolver: zodResolver(schema),
   });
 
-  useEffect(() => {
-    if (basicinfo) {
-      reset({
-        ...basicinfo,
-        gender: basicinfo.gender as "male" | "female" | undefined,
-      });
-    }
-  }, [basicinfo, reset]);
-
   const isFilled = watch("filled");
 
   const onSubmit = (data: FormData) => {
     addFormValues({ ...data, filled: true });
 
     if (!eduinfo) {
-    return route.push("/personal-info/educationinformationform");
-      
+      return route.push("/personal-info/educationinformationform");
     } else if (!addinfo) {
-      return  route.push("/residential-info/addressinformationform");
-   
+      return route.push("/residential-info/addressinformationform");
     } else if (!tandcinfo) {
-      return  route.push("/residential-info/termsandconditionsform");
-    
+      return route.push("/residential-info/termsandconditionsform");
     } else {
       route.push("/dashboard");
     }
@@ -289,6 +277,16 @@ const BasicInformationForm = () => {
       route.push("/personal-info/educationinformationform");
     }
   };
+
+  useEffect(() => {
+    if (basicinfo) {
+      reset({
+        ...basicinfo,
+        gender: basicinfo.gender as "male" | "female" | undefined,
+      });
+    }
+  }, [basicinfo, reset]);
+
   return (
     <div className="flex items-center justify-center min-h-[91.2vh] bg-gradient-to-br from-gray-100 to-white px-4 py-8">
       <Card className="w-full max-w-xl border border-gray-300 shadow-lg rounded-3xl">

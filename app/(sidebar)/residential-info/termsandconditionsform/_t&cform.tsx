@@ -128,6 +128,7 @@
 // };
 
 // export default TAndCForm;
+
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -145,34 +146,21 @@ import { toast } from "sonner";
 export default function TAndCForm() {
   const router = useRouter();
 
-  // Pull in the existing “filled” flag from your T&C slice:
-  // const tandcinfo = useTermsAndConditionsForm((s) => s.basic);
   const basicinfo = useBasicInformationForm((s) => s.basic);
-  const eduinfo   = useEducationInformationForm((s) => s.basic);
-  const addinfo   = useAddressInformationForm((s) => s.basic);
-  const {addFormValues,basic:tanscinfo} = useTermsAndConditionsForm();
+  const eduinfo = useEducationInformationForm((s) => s.basic);
+  const addinfo = useAddressInformationForm((s) => s.basic);
+  const { addFormValues, basic: tanscinfo } = useTermsAndConditionsForm();
 
-  // Local UI state:
   const [isChecked, setIsChecked] = useState(false);
   const [isFormFilled, setIsFormFilled] = useState(false);
-
-  // On mount, initialize from the slice:
-  useEffect(() => {
-    if (tanscinfo?.filled) {
-      setIsChecked(true);
-      setIsFormFilled(true);
-    }
-  }, [tanscinfo]);
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setIsChecked(e.target.checked);
   };
 
   const handleSubmit = () => {
-    // Save into Zustand slice (and persist)
     addFormValues({ filled: true });
     setIsFormFilled(true);
-    // Redirect logic:
     if (!basicinfo) {
       router.push("/personal-info/basicinformationform");
     } else if (!eduinfo) {
@@ -190,6 +178,13 @@ export default function TAndCForm() {
     router.push("/residential-info/addressinformationform");
   };
 
+  useEffect(() => {
+    if (tanscinfo?.filled) {
+      setIsChecked(true);
+      setIsFormFilled(true);
+    }
+  }, [tanscinfo]);
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-100 to-white px-4 py-8">
       <Card className="w-full max-w-xl border border-gray-300 shadow-lg rounded-3xl">
@@ -201,7 +196,9 @@ export default function TAndCForm() {
         <CardContent className="p-6 space-y-6">
           {/* T&C Text */}
           <div className="space-y-4 text-gray-600">
-            <p className="font-semibold text-gray-800">Please read and accept:</p>
+            <p className="font-semibold text-gray-800">
+              Please read and accept:
+            </p>
             <ul className="list-disc pl-5">
               <li>Use of the service is at your own risk.</li>
               <li>We do not guarantee the accuracy of the information.</li>

@@ -228,14 +228,13 @@ const Dashboard = () => {
   ) => (
     <div className="mb-8 border rounded-md p-4 shadow-sm bg-white">
       <div className="flex justify-between items-center mb-4">
-        <h3 className="text-lg font-semibold text-gray-800">{title}</h3>
-
-        
+        <h3 className="text-lg font-semibold text-gray-800">{title}</h3>        
         {filled && (
         <Button variant="outline" onClick={() => navigateTo(path)}>
           View Details
         </Button>
       )}
+      
       </div>
 
       {filled ? (
@@ -267,6 +266,10 @@ const Dashboard = () => {
                 <TableCell className="text-green-600 font-medium">
                   Filled
                 </TableCell>
+                {/* {console.log(title)}
+                {console.log(data)}
+                {console.log(filled)}
+                {console.log(path)} */}
               </TableRow>
             </TableBody>
           </Table>
@@ -276,8 +279,9 @@ const Dashboard = () => {
       )}
     </div>
   );
+  
 
-  // Progress bar data
+  // Progress bar
   const totalForms = 4;
   const filledForms = [
     formInfo.basic.data?.filled,
@@ -287,7 +291,7 @@ const Dashboard = () => {
   ].filter(Boolean).length;
   const percentage = Math.round((filledForms / totalForms) * 100);
 
-  //  Continue button logic
+  //  Continue button
   const completeForm = () => {
     if (!formInfo.basic.data?.filled) {
       navigateTo("/personal-info/basicinformationform");
@@ -310,7 +314,7 @@ const Dashboard = () => {
 
   return (
     <div className="container mx-auto p-6 bg-gray-50 min-h-screen">
-      {/* Progress Section */}
+      {/* Progress bar */}
       <div className="bg-white rounded-lg shadow-lg p-6 mb-8">
         <h2 className="text-2xl font-bold mb-4 text-gray-800">
           Form Completion Status

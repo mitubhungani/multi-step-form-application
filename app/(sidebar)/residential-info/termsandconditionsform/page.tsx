@@ -1,10 +1,12 @@
-import React from 'react'
-import TAndCForm from './_t&cform'
+import React from "react";
+import TAndCForm from "./_t&cform";
 
 const TermsAndConditionsForm = () => {
   return (
-    <div><TAndCForm/></div>
-  )
-}
+    <div>
+      <TAndCForm />
+    </div>
+  );
+};
 
-export default TermsAndConditionsForm
+export default TermsAndConditionsForm;

@@ -239,14 +239,6 @@ const AddressInfoForm = () => {
     resolver: zodResolver(schema),
   });
 
-  useEffect(() => {
-    if (addinfo) {
-      reset({
-        ...addinfo,
-      });
-    }
-  }, [addinfo, reset]);
-
   const isFilled = watch("filled");
 
   const onSubmit = (data: AddressFormData) => {
@@ -254,9 +246,9 @@ const AddressInfoForm = () => {
 
     if (!basicinfo) {
       route.push("/personal-info/basicinformationform");
-    } else if (!eduinfo ) {
+    } else if (!eduinfo) {
       route.push("/personal-info/educationinformationform");
-    } else if (!tandcinfo ) {
+    } else if (!tandcinfo) {
       route.push("/residential-info/termsandconditionsform");
     } else {
       route.push("/dashboard");
@@ -272,6 +264,14 @@ const AddressInfoForm = () => {
   const previousButton = () => {
     route.push("/personal-info/educationinformationform");
   };
+
+  useEffect(() => {
+    if (addinfo) {
+      reset({
+        ...addinfo,
+      });
+    }
+  }, [addinfo, reset]);
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-100 to-white px-4 py-8">
