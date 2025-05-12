@@ -254,6 +254,7 @@ import useBasicInformationForm from "@/store/BasicInformationFormStore/form";
 import useEducationInformationForm from "@/store/EducationInformationFormStore/from";
 import useAddressInformationForm from "@/store/AddressInformationFormStore/form";
 import useTermsAndConditionsForm from "@/store/TermsAndConditionsFormStore/form";
+import { useTranslations } from "next-intl";
 
 // Zod schema
 const educationSchema = z.object({
@@ -266,6 +267,8 @@ const educationSchema = z.object({
 type EducationFormData = z.infer<typeof educationSchema>;
 
 export default function EducationInfoForm() {
+  const tEducation = useTranslations('education') 
+  const taccount = useTranslations('account')
   const router = useRouter();
 
   const basicInfo = useBasicInformationForm((s) => s.basic);
@@ -304,7 +307,7 @@ export default function EducationInfoForm() {
       reset({
         ...eduInfo,
         degree: eduInfo.degree as "bca" | "mca" | "btech" | "bcom",
-      });
+      });      
     }
   }, [eduInfo, reset]);
 
@@ -313,14 +316,14 @@ export default function EducationInfoForm() {
       <Card className="w-full max-w-xl border border-gray-300 shadow-lg rounded-2xl">
         <CardHeader>
           <CardTitle className="text-center text-2xl font-semibold text-gray-800">
-            Education Information
+            {tEducation('header.title')}
           </CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
             {/* Degree */}
             <div className="space-y-1">
-              <Label htmlFor="degree">Degree</Label>
+              <Label htmlFor="degree">{tEducation("degree")}</Label>
               <Controller
                 name="degree"
                 control={control}
@@ -349,7 +352,7 @@ export default function EducationInfoForm() {
 
             {/* University */}
             <div className="space-y-1">
-              <Label htmlFor="university">University</Label>
+              <Label htmlFor="university">{tEducation('university')}</Label>
               <Input
                 id="university"
                 {...register("university")}
@@ -365,7 +368,7 @@ export default function EducationInfoForm() {
 
             {/* Passing Year */}
             <div className="space-y-1">
-              <Label htmlFor="passingYear">Passing Year</Label>
+              <Label htmlFor="passingYear">{tEducation('passing-year')}</Label>
               <Input
                 id="passingYear"
                 type="number"
@@ -383,7 +386,7 @@ export default function EducationInfoForm() {
 
             {/* CGPA */}
             <div className="space-y-1">
-              <Label htmlFor="cgpa">CGPA</Label>
+              <Label htmlFor="cgpa">{tEducation("cgpa")}</Label>
               <Input
                 id="cgpa"
                 type="number"
@@ -402,7 +405,7 @@ export default function EducationInfoForm() {
               className="w-full text-white"
               disabled={eduInfo?.filled}
             >
-              Submit
+              {taccount('submit')}
             </Button>
           </form>
         </CardContent>
@@ -412,7 +415,7 @@ export default function EducationInfoForm() {
           <Button
             onClick={() => router.push("/personal-info/basicinformationform")}
           >
-            Previous
+            {taccount('previous')}
           </Button>
           <Button
             onClick={() =>
@@ -421,7 +424,7 @@ export default function EducationInfoForm() {
             }
             disabled={!eduInfo?.filled}
           >
-            Next
+            {taccount('nextbtn')}
           </Button>
         </div>
       </Card>

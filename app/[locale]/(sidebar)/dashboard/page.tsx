@@ -226,8 +226,10 @@ import useAddressInformationForm from "@/store/AddressInformationFormStore/form"
 import useTermsAndConditionsForm from "@/store/TermsAndConditionsFormStore/form";
 import useEducationInformationForm from "@/store/EducationInformationFormStore/from";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 const Dashboard = () => {
+   const t = useTranslations('dashboard');
   const router = useRouter();
 
   const formInfo = {
@@ -292,12 +294,12 @@ const Dashboard = () => {
         <span
           className={`text-sm ${filled ? "text-green-600" : "text-red-500"}`}
         >
-          {filled ? "Filled ✅" : "Not Done ❌"}
+          {filled ? t("status.filled") : t("status.notdone") }
         </span>
 
         {filled && (
           <Button variant="outline" onClick={() => navigateTo(path)}>
-            View <FaRegEye />
+            {t('buttons.view')} <FaRegEye />
           </Button>
         )}
       </div>
@@ -309,7 +311,7 @@ const Dashboard = () => {
       {/* Progress bar */}
       <div className="bg-white rounded-lg shadow-lg p-6 mb-8">
         <h2 className="text-2xl font-bold mb-4 text-gray-800">
-          Form Completion Status
+            {t('progreshbar.title')}
         </h2>
         <div className="flex items-center gap-4 mb-6">
           <div className="w-full bg-gray-200 rounded-full h-2.5">
@@ -336,7 +338,7 @@ const Dashboard = () => {
             {percentage === 100 ? "Form Complete" : "Continue Form"}
           </Button>
           <Button variant="destructive" onClick={resetForm}>
-            Reset Forms
+            {t("progreshbar.resetbtn")}
           </Button>
         </div>
       </div>
@@ -345,12 +347,12 @@ const Dashboard = () => {
       <Accordion type="multiple" className="space-y-4">
         <AccordionItem value="personal-info">
           <AccordionTrigger className="text-lg font-semibold">
-            Personal Info
+            {t('personalinfo.title')}
           </AccordionTrigger>
           <AccordionContent>
             <Link href="/personal-info/basicinformationform">
               {renderFormRow(
-                "Basic Information",
+                t('personalinform.title'),
                 formInfo.basic.data?.filled,
                 "/personal-info/basicinformationform"
               )}
@@ -358,7 +360,7 @@ const Dashboard = () => {
 
             <Link href="/personal-info/educationinformationform">
               {renderFormRow(
-                "Education Information",
+                t('educationinfo.title'),
                 formInfo.education.data?.filled,
                 "/personal-info/educationinformationform"
               )}
@@ -368,19 +370,19 @@ const Dashboard = () => {
 
         <AccordionItem value="residential-info">
           <AccordionTrigger className="text-lg font-semibold">
-            Residential Info
+             {t('residentialinfo.title')}
           </AccordionTrigger>
           <AccordionContent>
             <Link href="/residential-info/addressinformationform">
               {renderFormRow(
-                "Address Information",
+                 t('addressinfo.title'),
                 formInfo.address.data?.filled,
                 "/residential-info/addressinformationform"
               )}
             </Link>
             <Link href="/residential-info/termsandconditionsform">
               {renderFormRow(
-                "Terms & Conditions",
+                t('termsandconditions.title'),
                 formInfo.terms.data?.filled,
                 "/residential-info/termsandconditionsform"
               )}

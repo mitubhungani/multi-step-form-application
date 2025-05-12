@@ -1,75 +1,74 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import {
-  GalleryVerticalEnd,
-  PieChart,
-  SquareTerminal,
-} from "lucide-react"
+import * as React from "react";
+import { GalleryVerticalEnd, PieChart, SquareTerminal } from "lucide-react";
 
-import { NavMain } from "@/components/nav-main"
-import { TeamSwitcher } from "@/components/team-switcher"
+import { NavMain } from "@/components/nav-main";
+import { TeamSwitcher } from "@/components/team-switcher";
 import {
   Sidebar,
   SidebarContent,
   SidebarHeader,
   SidebarRail,
-} from "@/components/ui/sidebar"
-import { NavProjects } from "./nav-projects"
+} from "@/components/ui/sidebar";
+import { NavProjects } from "./nav-projects";
+import { useTranslations } from "next-intl";
 
 // This is sample data.
-const data = {
-  teams: [
-    {
-      name: "Multi Step Form",
-      logo: GalleryVerticalEnd,
-      plan: "Forms",
-    },
-  ],
-  navMain: [
-    {
-      title: "Personal Information",
-      url: "#",
-      icon: SquareTerminal,
-      isActive: true,
-      items: [
-        {
-          title: "Basic Information Form",
-          url: "/personal-info/basicinformationform",
-        },
-        {
-          title: "Education Information Form",
-          url: "/personal-info/educationinformationform",
-        },
-      ],
-    },
-    {
-        title: "Residential Information",
+
+export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const tSidebar = useTranslations("sidebar");
+  const tDashboard = useTranslations("dashboard");
+  const data = {
+    teams: [
+      {
+        name: tSidebar("header.title"),
+        logo: GalleryVerticalEnd,
+        plan: tSidebar("header.subtitle"),
+      },
+    ],
+    navMain: [
+      {
+        title: tDashboard("personalinfo.title"),
         url: "#",
         icon: SquareTerminal,
         isActive: true,
         items: [
           {
-            title: "Address Information Form",
+            title: tDashboard("personalinform.title"),
+            url: "/personal-info/basicinformationform",
+          },
+          {
+            title: tDashboard("educationinfo.title"),
+            url: "/personal-info/educationinformationform",
+          },
+        ],
+      },
+      {
+        title: tDashboard("residentialinfo.title"),
+        url: "#",
+        icon: SquareTerminal,
+        isActive: true,
+        items: [
+          {
+            title: tDashboard("addressinfo.title"),
             url: "/residential-info/addressinformationform",
           },
           {
-            title: "Terms And Conditions Form",
+            title: tDashboard("termsandconditions.title"),
             url: "/residential-info/termsandconditionsform",
           },
         ],
       },
-  ],
-  projects: [
-    {
-      name: "Dashboard",
-      url: "/dashboard",
-      icon: PieChart,
-    },
-  ],
-}
-
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+    ],
+    projects: [
+      {
+        name: tSidebar("dashsection.title"),
+        url: "/dashboard",
+        icon: PieChart,
+      },
+    ],
+  };
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
@@ -83,5 +82,5 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarContent>
       <SidebarRail />
     </Sidebar>
-  )
+  );
 }

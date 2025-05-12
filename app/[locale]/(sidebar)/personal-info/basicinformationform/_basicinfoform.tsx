@@ -223,6 +223,7 @@ import useBasicInformationForm from "@/store/BasicInformationFormStore/form";
 import useEducationInformationForm from "@/store/EducationInformationFormStore/from";
 import useAddressInformationForm from "@/store/AddressInformationFormStore/form";
 import useTermsAndConditionsForm from "@/store/TermsAndConditionsFormStore/form";
+import { useTranslations } from "next-intl";
 
 // Schema
 const schema = z.object({
@@ -237,6 +238,8 @@ type FormData = z.infer<typeof schema>;
 
 const BasicInformationForm = () => {
   // const { address, education, terms } = useUserData();
+
+  const tAccount = useTranslations("account");
 
   const { addFormValues, basic: basicinfo } = useBasicInformationForm();
   const eduinfo = useEducationInformationForm((s) => s.basic);
@@ -292,7 +295,7 @@ const BasicInformationForm = () => {
       <Card className="w-full max-w-xl border border-gray-300 shadow-lg rounded-3xl">
         <CardHeader className="pb-2 border-b">
           <CardTitle className="text-center text-3xl font-semibold text-gray-800">
-            Create Account
+            {tAccount("header.title")}
           </CardTitle>
         </CardHeader>
         <CardContent className="p-6 space-y-6">
@@ -300,7 +303,7 @@ const BasicInformationForm = () => {
             {/* Username */}
             <div className="space-y-2">
               <Label htmlFor="username" className="text-gray-700 font-medium">
-                Username
+                {tAccount("username")}
               </Label>
               <Input
                 id="username"
@@ -318,7 +321,7 @@ const BasicInformationForm = () => {
             {/* Email */}
             <div className="space-y-2">
               <Label htmlFor="email" className="text-gray-700 font-medium">
-                Email
+                {tAccount("email")}
               </Label>
               <Input
                 id="email"
@@ -335,7 +338,7 @@ const BasicInformationForm = () => {
             {/* Password */}
             <div className="space-y-2">
               <Label htmlFor="password" className="text-gray-700 font-medium">
-                Password
+                {tAccount("password")}
               </Label>
               <Input
                 id="password"
@@ -353,7 +356,9 @@ const BasicInformationForm = () => {
 
             {/* Gender */}
             <div className="space-y-2">
-              <Label className="text-gray-700 font-medium">Gender</Label>
+              <Label className="text-gray-700 font-medium">
+                {tAccount("gender")}
+              </Label>
               <Controller
                 name="gender"
                 control={control}
@@ -366,11 +371,11 @@ const BasicInformationForm = () => {
                   >
                     <div className="flex items-center space-x-2">
                       <RadioGroupItem value="male" id="male" />
-                      <Label htmlFor="male">Male</Label>
+                      <Label htmlFor="male">{tAccount("male")}</Label>
                     </div>
                     <div className="flex items-center space-x-2">
                       <RadioGroupItem value="female" id="female" />
-                      <Label htmlFor="female">Female</Label>
+                      <Label htmlFor="female">{tAccount("female")}</Label>
                     </div>
                   </RadioGroup>
                 )}
@@ -386,7 +391,7 @@ const BasicInformationForm = () => {
               className="w-full text-white py-2 rounded-xl"
               disabled={isFilled}
             >
-              Submit
+              {tAccount("submit")}
             </Button>
           </form>
         </CardContent>
@@ -398,7 +403,7 @@ const BasicInformationForm = () => {
             disabled={!isFilled}
             onClick={nextButton}
           >
-            Next
+            {tAccount("nextbtn")}
           </Button>
         </div>
       </Card>

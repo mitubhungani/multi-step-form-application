@@ -205,6 +205,7 @@ import useAddressInformationForm from "@/store/AddressInformationFormStore/form"
 import useBasicInformationForm from "@/store/BasicInformationFormStore/form";
 import useEducationInformationForm from "@/store/EducationInformationFormStore/from";
 import useTermsAndConditionsForm from "@/store/TermsAndConditionsFormStore/form";
+import { useTranslations } from "next-intl";
 
 // Schema
 const schema = z.object({
@@ -222,12 +223,17 @@ const schema = z.object({
 type AddressFormData = z.infer<typeof schema>;
 
 const AddressInfoForm = () => {
+
+  const taddress = useTranslations('address')
+  const taccount = useTranslations('account')
+
+  const route = useRouter();
+
   const basicinfo = useBasicInformationForm((s) => s.basic);
   const eduinfo = useEducationInformationForm((s) => s.basic);
   const { addFormValues, basic: addinfo } = useAddressInformationForm();
   const tandcinfo = useTermsAndConditionsForm((s) => s.basic);
 
-  const route = useRouter();
 
   const {
     register,
@@ -278,7 +284,7 @@ const AddressInfoForm = () => {
       <Card className="w-full max-w-xl border border-gray-300 shadow-lg rounded-3xl">
         <CardHeader className="pb-2 border-b">
           <CardTitle className="text-center text-3xl font-semibold text-gray-800">
-            Address Information
+            {taddress('header.title')}
           </CardTitle>
         </CardHeader>
         <CardContent className="p-6 space-y-6">
@@ -286,7 +292,7 @@ const AddressInfoForm = () => {
             {/* Address */}
             <div className="space-y-2">
               <Label htmlFor="address" className="text-gray-700 font-medium">
-                Address
+                {taddress('addresslabel')}
               </Label>
               <Input
                 disabled={isFilled}
@@ -302,7 +308,7 @@ const AddressInfoForm = () => {
             {/* City */}
             <div className="space-y-2">
               <Label htmlFor="city" className="text-gray-700 font-medium">
-                City
+                {taddress('city')}
               </Label>
               <Input
                 disabled={isFilled}
@@ -318,7 +324,7 @@ const AddressInfoForm = () => {
             {/* State */}
             <div className="space-y-2">
               <Label htmlFor="state" className="text-gray-700 font-medium">
-                State
+                {taddress('state')}
               </Label>
               <Input
                 disabled={isFilled}
@@ -334,7 +340,7 @@ const AddressInfoForm = () => {
             {/* Postal Code */}
             <div className="space-y-2">
               <Label htmlFor="postalCode" className="text-gray-700 font-medium">
-                Postal Code
+                {taddress('postalcode')}
               </Label>
               <Input
                 disabled={isFilled}
@@ -355,18 +361,18 @@ const AddressInfoForm = () => {
               className="w-full text-white py-2 rounded-xl"
               disabled={isFilled}
             >
-              Submit
+              {taccount('submit')}
             </Button>
           </form>
         </CardContent>
         {/* extra button */}
         <div className="px-4 flex justify-between">
           <Button className="w-1/4 " onClick={previousButton}>
-            Previous
+            {taccount('previous')}
           </Button>
           <Button className="w-1/4 " disabled={!isFilled} onClick={nextButton}>
             {" "}
-            Next{" "}
+            {taccount('nextbtn')}{" "}
           </Button>
         </div>
       </Card>

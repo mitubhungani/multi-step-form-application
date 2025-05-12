@@ -1,0 +1,89 @@
+{
+  "dashboard": {
+    "progreshbar": {
+      "title": "ફોર્મ પૂર્ણતાની સ્થિતિ",
+      "completebtn": "ફોર્મ પૂર્ણ થયું",
+      "continueformbtn": "ફોર્મ ચાલુ રાખો",
+      "resetbtn": "ફોર્મ રીસેટ કરો"
+    },
+    "personalinfo": {
+      "title": "વ્યક્તિગત માહિતી"
+    },
+    "personalinform": {
+      "title": "મૂળભૂત માહિતી"
+    },
+    "educationinfo": {
+      "title": "શૈક્ષણિક માહિતી"
+    },
+    "residentialinfo": {
+      "title": "રહેઠાણ માહિતી"
+    },
+    "addressinfo": {
+      "title": "સરનામાની માહિતી"
+    },
+    "termsandconditions": {
+      "title": "શરતો અને નિયમો"
+    },
+    "status": {
+      "filled": "ભરેલું છે ✅",
+      "notdone": "ભરાયું નથી ❌"
+    },
+    "buttons": {
+      "view": "જુઓ"
+    }
+  },
+  "sidebar": {
+    "header": {
+      "title": "મલ્ટી સ્ટેપ ફોર્મ",
+      "subtitle": "ફોર્મ્સ"
+    },
+    "dashsection": {
+      "title": "ડેશબોર્ડ"
+    }
+  },
+  "account": {
+    "header": {
+      "title": "એકાઉન્ટ બનાવો"
+    },
+    "username": "યૂઝરનામ",
+    "email": "ઈમેલ",
+    "password": "પાસવર્ડ",
+    "gender": "લિંગ",
+    "male": "પુરુષ",
+    "female": "સ્ત્રી",
+    "submit": "સબમિટ કરો",
+    "previous": "પાછળ",
+    "nextbtn": "આગળ"
+  },
+  "education": {
+    "header": {
+      "title": "શૈક્ષણિક માહિતી"
+    },
+    "degree": "ડિગ્રી",
+    "university": "વિશ્વવિદ્યાલય",
+    "passing-year": "પાસ થવાની સાલ",
+    "cgpa": "CGPA"
+  },
+  "address": {
+    "header": {
+      "title": "સરનામાની માહિતી"
+    },
+    "addresslabel": "સરનામું",
+    "city": "શહેર",
+    "state": "રાજ્ય",
+    "postalcode": "પોસ્ટલ કોડ"
+  },
+  "tandc": {
+    "header": {
+      "title": "શરતો અને નિયમો"
+    },
+    "title": "કૃપા કરીને વાંચો અને સ્વીકારો:",
+    "line1": "સેવાનો ઉપયોગ તમારી પોતાની જવાબદારી પર છે.",
+    "line2": "અમે માહિતીની સચોટતાની કોઈ ખાતરી આપતા નથી.",
+    "line3": "બધા સામગ્રી કૉપીરાઇટ કાનૂન દ્વારા સુરક્ષિત છે.",
+    "line4": "અમે કોઈ પૂર્વ સૂચના વિના આ શરતો અપડેટ કરી શકીએ છીએ.",
+    "line5": "તમારે તમારું એકાઉન્ટ માહિતી ગુપ્ત રાખવી પડશે.",
+    "checkbtn": "હું શરતો અને નિયમો સ્વીકારું છું",
+    "tandcsubmitbtn": "પહેલેથી જ સબમિટ કરેલ છે"
+  }
+}
