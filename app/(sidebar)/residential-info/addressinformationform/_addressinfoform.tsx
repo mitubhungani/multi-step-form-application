@@ -257,7 +257,7 @@ const AddressInfoForm = () => {
 
   const nextButton = () => {
     if (isFilled) {
-      route.push("/personal-info/educationinformationform");
+      route.push("/residential-info/termsandconditionsform");
     }
   };
 

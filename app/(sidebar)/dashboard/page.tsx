@@ -225,6 +225,7 @@ import useBasicInformationForm from "@/store/BasicInformationFormStore/form";
 import useAddressInformationForm from "@/store/AddressInformationFormStore/form";
 import useTermsAndConditionsForm from "@/store/TermsAndConditionsFormStore/form";
 import useEducationInformationForm from "@/store/EducationInformationFormStore/from";
+import Link from "next/link";
 
 const Dashboard = () => {
   const router = useRouter();
@@ -347,16 +348,21 @@ const Dashboard = () => {
             Personal Info
           </AccordionTrigger>
           <AccordionContent>
-            {renderFormRow(
-              "Basic Information",
-              formInfo.basic.data?.filled,
-              "/personal-info/basicinformationform"
-            )}
-            {renderFormRow(
-              "Education Information",
-              formInfo.education.data?.filled,
-              "/personal-info/educationinformationform"
-            )}
+            <Link href="/personal-info/basicinformationform">
+              {renderFormRow(
+                "Basic Information",
+                formInfo.basic.data?.filled,
+                "/personal-info/basicinformationform"
+              )}
+            </Link>
+
+            <Link href="/personal-info/educationinformationform">
+              {renderFormRow(
+                "Education Information",
+                formInfo.education.data?.filled,
+                "/personal-info/educationinformationform"
+              )}
+            </Link>
           </AccordionContent>
         </AccordionItem>
 
@@ -365,16 +371,20 @@ const Dashboard = () => {
             Residential Info
           </AccordionTrigger>
           <AccordionContent>
-            {renderFormRow(
-              "Address Information",
-              formInfo.address.data?.filled,
-              "/residential-info/addressinformationform"
-            )}
-            {renderFormRow(
-              "Terms & Conditions",
-              formInfo.terms.data?.filled,
-              "/residential-info/termsandconditionsform"
-            )}
+            <Link href="/residential-info/addressinformationform">
+              {renderFormRow(
+                "Address Information",
+                formInfo.address.data?.filled,
+                "/residential-info/addressinformationform"
+              )}
+            </Link>
+            <Link href="/residential-info/termsandconditionsform">
+              {renderFormRow(
+                "Terms & Conditions",
+                formInfo.terms.data?.filled,
+                "/residential-info/termsandconditionsform"
+              )}
+            </Link>
           </AccordionContent>
         </AccordionItem>
       </Accordion>
