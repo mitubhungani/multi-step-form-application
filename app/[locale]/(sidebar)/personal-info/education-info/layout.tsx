@@ -10,7 +10,7 @@ export default function Validation({
   children: React.ReactNode;
 }) {
     const basicInfo = useCreateAccountForm((s) => s.basic);
-    console.log("basicInfo", basicInfo);
+    // console.log("basicInfo", basicInfo);
     
     
   const router = useRouter();

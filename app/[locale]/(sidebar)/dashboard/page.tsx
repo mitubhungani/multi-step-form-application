@@ -233,7 +233,7 @@ const Dashboard = () => {
   const router = useRouter();
 
   const formInfo = {
-    basic: {
+    createaccount: {
       data: useCreateAccountForm((s) => s.basic),
       reset: useCreateAccountForm((s) => s.resetForm),
     },
@@ -255,7 +255,7 @@ const Dashboard = () => {
 
   const totalForms = 4;
   const filledForms = [
-    formInfo.basic.data?.filled,
+    formInfo.createaccount.data?.filled,
     formInfo.education.data?.filled,
     formInfo.address.data?.filled,
     formInfo.terms.data?.filled,
@@ -264,7 +264,7 @@ const Dashboard = () => {
   const percentage = Math.round((filledForms / totalForms) * 100);
 
   const completeForm = () => {
-    if (!formInfo.basic.data?.filled) {
+    if (!formInfo.createaccount.data?.filled) {
       navigateTo("/personal-info/create-account");
     } else if (!formInfo.education.data?.filled) {
       navigateTo("/personal-info/education-info");
@@ -276,7 +276,7 @@ const Dashboard = () => {
   };
 
   const resetForm = () => {
-    formInfo.basic.reset();
+    formInfo.createaccount.reset();
     formInfo.education.reset();
     formInfo.address.reset();
     formInfo.terms.reset();
@@ -353,7 +353,7 @@ const Dashboard = () => {
             <Link href="/personal-info/create-account">
               {renderFormRow(
                 t('personalinform.title'),
-                formInfo.basic.data?.filled,
+                formInfo.createaccount.data?.filled,
                 "/personal-info/create-account"
               )}
             </Link>

@@ -309,7 +309,7 @@ export default function EducationInfoForm() {
       });      
     }
   }, [eduInfo, reset]);
-  console.log(eduInfo);
+  // console.log(eduInfo);
   
 
   return (
