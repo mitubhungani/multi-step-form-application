@@ -1,12 +1,12 @@
 // src/stores/MainStore.ts
 import { create } from "zustand";
 import { combine, devtools, persist } from "zustand/middleware";
-import useBasicInformationForm from "../BasicInformationFormStore/form";
-import useEducationInformationForm from "../EducationInformationFormStore/from";
+import useCreateAccountForm from "../Create-Account-Store/form";
+import useEducationInfoForm from "../Education-Info-Store/from";
 
 // 1. Grab initial slices out of your existing stores:
-const { basic: initialBasic } = useBasicInformationForm.getState();
-const { basic: initialEducation } = useEducationInformationForm.getState();
+const { basic: initialBasic } = useCreateAccountForm.getState();
+const { basic: initialEducation } = useEducationInfoForm.getState();
 
 // 2. Create your combined store:
 const useMainStore = create(

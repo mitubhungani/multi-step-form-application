@@ -126,11 +126,11 @@ const Dashboard = () => {
 
   const completeForm = () => {
     const comp = () => {
-      if (!basic?.filled) return "/personal-info/basicinformationform";
-      else if (!education?.filled) return "/personal-info/educationinformationform";
+      if (!basic?.filled) return "/personal-info/create-account";
+      else if (!education?.filled) return "/personal-info/education-info";
       else if (!address?.filled)
-        return "/residential-info/addressinformationform";
-      else return "/residential-info/termsandconditionsform";
+        return "/residential-info/address-info";
+      else return "/residential-info/terms&conditions";
     };
     router.push(comp());
   };
@@ -182,13 +182,13 @@ const Dashboard = () => {
           "Basic Information",
           basic,
           basic?.filled,
-          "/personal-info/basicinformationform"
+          "/personal-info/create-account"
         )}
         {renderTable(
           "Education Information",
           education,
           education?.filled,
-          "/personal-info/educationinformationform"
+          "/personal-info/education-info"
         )}
       </div>
 
@@ -200,13 +200,13 @@ const Dashboard = () => {
           "Address Information",
           address,
           address?.filled,
-          "/residential-info/addressinformationform"
+          "/residential-info/address-info"
         )}
         {renderTable(
           "Terms & Conditions",
           { Accepted: terms?.filled ? "Yes" : "No" },
           terms?.filled,
-          "/residential-info/termsandconditionsform"
+          "/residential-info/terms&conditions"
         )}
       </div>
     </div>
@@ -254,11 +254,11 @@ const data = {
       items: [
         {
           title: "Basic Information Form",
-          url: "/personal-info/basicinformationform",
+          url: "/personal-info/create-account",
         },
         {
           title: "Education Information Form",
-          url: "/personal-info/educationinformationform",
+          url: "/personal-info/education-info",
         },
       ],
     },
@@ -270,11 +270,11 @@ const data = {
         items: [
           {
             title: "Address Information Form",
-            url: "/residential-info/addressinformationform",
+            url: "/residential-info/address-info",
           },
           {
             title: "Terms And Conditions Form",
-            url: "/residential-info/termsandconditionsform",
+            url: "/residential-info/terms&conditions",
           },
         ],
       },
@@ -353,11 +353,11 @@ export function NavMain({
 
   const isFilled = (url: string) => {
     switch (url) {
-      case "/personal-info/educationinformationform":
+      case "/personal-info/education-info":
         return !education?.filled;
-      case "/residential-info/addressinformationform":
+      case "/residential-info/address-info":
         return !address?.filled;
-      case "/residential-info/termsandconditionsform":
+      case "/residential-info/terms&conditions":
         return !terms?.filled;
       default:
     }

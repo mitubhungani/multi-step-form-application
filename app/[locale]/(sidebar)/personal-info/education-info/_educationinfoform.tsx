@@ -68,13 +68,13 @@
 //     };
 //     localStorage.setItem("User-Data", JSON.stringify(userData));
 //     if (!basic?.filled) {
-//       route.push("/personal-info/basicinformationform");
+//       route.push("/personal-info/create-account");
 //       return null;
 //     } else if (!address?.filled) {
-//       route.push("/residential-info/addressinformationform");
+//       route.push("/residential-info/address-info");
 //       return null;
 //     } else if (!terms?.filled) {
-//       route.push("/residential-info/termsandconditionsform");
+//       route.push("/residential-info/terms&conditions");
 //       return null;
 //     } else {
 //       route.push("/dashboard");
@@ -83,12 +83,12 @@
 
 //   const nextButton = () => {
 //     if (formData?.filled) {
-//       route.push("/residential-info/addressinformationform");
+//       route.push("/residential-info/address-info");
 //     }
 //   };
 
 //   const previousButton = () => {
-//     route.push("/personal-info/basicinformationform");
+//     route.push("/personal-info/create-account");
 //   };
 
 //   useEffect(() => {
@@ -250,10 +250,10 @@ import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { useRouter } from "next/navigation";
 
-import useBasicInformationForm from "@/store/BasicInformationFormStore/form";
-import useEducationInformationForm from "@/store/EducationInformationFormStore/from";
-import useAddressInformationForm from "@/store/AddressInformationFormStore/form";
-import useTermsAndConditionsForm from "@/store/TermsAndConditionsFormStore/form";
+import useCreateAccountForm from "@/store/Create-Account-Store/form";
+import useEducationInfoForm from "@/store/Education-Info-Store/from";
+import useAddressInfoForm from "@/store/Address-Info-Store/form";
+import useTermsAndConditionsForm from "@/store/Terms&Conditions-Store/form";
 import { useTranslations } from "next-intl";
 
 // Zod schema
@@ -271,9 +271,9 @@ export default function EducationInfoForm() {
   const taccount = useTranslations('account')
   const router = useRouter();
 
-  const basicInfo = useBasicInformationForm((s) => s.basic);
-  const { basic: eduInfo, addFormValues } = useEducationInformationForm();
-  const addressInfo = useAddressInformationForm((s) => s.basic);
+  const basicInfo = useCreateAccountForm((s) => s.basic);
+  const { basic: eduInfo, addFormValues } = useEducationInfoForm();
+  const addressInfo = useAddressInfoForm((s) => s.basic);
   const termsInfo = useTermsAndConditionsForm((s) => s.basic);
 
   const {
@@ -287,16 +287,15 @@ export default function EducationInfoForm() {
   });
 
 
-
   const onSubmit = (data: EducationFormData) => {
     addFormValues({ ...data, filled: true });
 
     if (!basicInfo) {
-      router.push("/personal-info/basicinformationform");
+      router.push("/personal-info/create-account");
     } else if (!addressInfo) {
-      router.push("/residential-info/addressinformationform");
+      router.push("/residential-info/address-info");
     } else if (!termsInfo) {
-      router.push("/residential-info/termsandconditionsform");
+      router.push("/residential-info/terms&conditions");
     } else {
       router.push("/dashboard");
     }
@@ -306,10 +305,12 @@ export default function EducationInfoForm() {
     if (eduInfo) {
       reset({
         ...eduInfo,
-        degree: eduInfo.degree as "bca" | "mca" | "btech" | "bcom",
+        degree: eduInfo.degree as "bca" | "mca" | "btech" | "bcom" | undefined
       });      
     }
   }, [eduInfo, reset]);
+  console.log(eduInfo);
+  
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 px-4">
@@ -329,7 +330,7 @@ export default function EducationInfoForm() {
                 control={control}
                 render={({ field }) => (
                   <Select
-                    value={field.value}
+                    value={eduInfo?.degree ? eduInfo?.degree : field.value}
                     onValueChange={field.onChange}
                     disabled={eduInfo?.filled}
                   >
@@ -413,14 +414,14 @@ export default function EducationInfoForm() {
         {/* navigation buttons */}
         <div className="px-4 flex justify-between py-2">
           <Button
-            onClick={() => router.push("/personal-info/basicinformationform")}
+            onClick={() => router.push("/personal-info/create-account")}
           >
             {taccount('previous')}
           </Button>
           <Button
             onClick={() =>
               eduInfo?.filled &&
-              router.push("/residential-info/addressinformationform")
+              router.push("/residential-info/address-info")
             }
             disabled={!eduInfo?.filled}
           >

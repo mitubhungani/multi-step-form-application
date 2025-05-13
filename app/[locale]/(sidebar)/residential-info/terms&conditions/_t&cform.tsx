@@ -1,4 +1,4 @@
-// // /residential-info/termsandconditionsform
+// // /residential-info/terms&conditions
 // "use client";
 
 // import React, { useEffect, useState } from "react";
@@ -25,15 +25,15 @@
 //       userData["residential-info"] = {...userData["residential-info"],termsandconditionsform: {filled: true}};
 //       localStorage.setItem("User-Data", JSON.stringify(userData));
 //       if(!basic?.filled){
-//         route.push("/personal-info/basicinformationform");
+//         route.push("/personal-info/create-account");
 //         return null
 //       }
 //       else if(!education?.filled){
-//         route.push("/personal-info/educationinformationform");
+//         route.push("/personal-info/education-info");
 //         return null
 //       }
 //       else if(!address?.filled){
-//         route.push("/residential-info/addressinformationform");
+//         route.push("/residential-info/address-info");
 //         return null
 //       }
 //       else{
@@ -43,7 +43,7 @@
 //   };
 
 //   const previousButton = () => {
-//     route.push("/residential-info/addressinformationform");
+//     route.push("/residential-info/address-info");
 //   };
 
 //   useEffect(() => {
@@ -137,10 +137,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { useRouter } from "next/navigation";
 
-import useBasicInformationForm from "@/store/BasicInformationFormStore/form";
-import useEducationInformationForm from "@/store/EducationInformationFormStore/from";
-import useAddressInformationForm from "@/store/AddressInformationFormStore/form";
-import useTermsAndConditionsForm from "@/store/TermsAndConditionsFormStore/form";
+import useCreateAccountForm from "@/store/Create-Account-Store/form";
+import useEducationInfoForm from "@/store/Education-Info-Store/from";
+import useAddressInfoForm from "@/store/Address-Info-Store/form";
+import useTermsAndConditionsForm from "@/store/Terms&Conditions-Store/form";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 
@@ -149,9 +149,9 @@ export default function TAndCForm() {
   const ttandc = useTranslations('tandc')
   const router = useRouter();
 
-  const basicinfo = useBasicInformationForm((s) => s.basic);
-  const eduinfo = useEducationInformationForm((s) => s.basic);
-  const addinfo = useAddressInformationForm((s) => s.basic);
+  const basicinfo = useCreateAccountForm((s) => s.basic);
+  const eduinfo = useEducationInfoForm((s) => s.basic);
+  const addinfo = useAddressInfoForm((s) => s.basic);
   const { addFormValues, basic: tanscinfo } = useTermsAndConditionsForm();
 
   const [isChecked, setIsChecked] = useState(false);
@@ -165,11 +165,11 @@ export default function TAndCForm() {
     addFormValues({ filled: true });
     setIsFormFilled(true);
     if (!basicinfo) {
-      router.push("/personal-info/basicinformationform");
+      router.push("/personal-info/create-account");
     } else if (!eduinfo) {
-      router.push("/personal-info/educationinformationform");
+      router.push("/personal-info/education-info");
     } else if (!addinfo) {
-      router.push("/residential-info/addressinformationform");
+      router.push("/residential-info/address-info");
     } else {
       router.push("/dashboard");
     }
@@ -178,7 +178,7 @@ export default function TAndCForm() {
   };
 
   const previousButton = () => {
-    router.push("/residential-info/addressinformationform");
+    router.push("/residential-info/address-info");
   };
 
   useEffect(() => {

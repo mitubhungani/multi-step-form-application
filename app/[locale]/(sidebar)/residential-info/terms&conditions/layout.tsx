@@ -2,26 +2,25 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import useAddressInformationForm from "@/store/AddressInformationFormStore/form";
+import useAddressInfoForm from "@/store/Address-Info-Store/form";
 
 export default function Validation({
   children,
 }: {
   children: React.ReactNode;
 }) {
-    const addressInfo = useAddressInformationForm((s) => s.basic);
+    const addressInfo = useAddressInfoForm((s) => s.basic);
   const router = useRouter();
   const [isValid, setIsValid] = useState<boolean | null>(null);
 
   useEffect(() => {
-    const data = addressInfo
-    if (!data) {
-      router.replace("/residential-info/addressinformationform");
+    if (!addressInfo) {
+      router.replace("/residential-info/address-info");
     } else {
-        router.replace('/residential-info/termsandconditionsform');
+        router.replace('/residential-info/terms&conditions');
       setIsValid(true);
     }
-  }, []);
+  }, [addressInfo]);
 
   if (isValid === null) return null;
 

@@ -1,25 +1,25 @@
-export interface BasicInformationForm {
-  email: string;
-  filled: boolean;
-  gender: string;
-  password?: string;
+export interface CreateAccountForm {
   username: string;
+  email: string;
+  password?: string;
+  gender: string;
+  filled: boolean;
 }
 
 export interface EducationInformationForm {
-  cgpa: number;
   degree: string;
-  filled: boolean;
-  passingYear: number;
   university: string;
+  passingYear: number;
+  cgpa: number;
+  filled: boolean;
 }
 
 export interface AddressInformationForm {
   address: string;
   city: string;
-  filled: boolean;
-  postalCode: number;
   state: string;
+  postalCode: number;
+  filled: boolean;
 }
 
 export interface TermsAndConditionsForm {

@@ -36,11 +36,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         items: [
           {
             title: tDashboard("personalinform.title"),
-            url: "/personal-info/basicinformationform",
+            url: "/personal-info/create-account",
           },
           {
             title: tDashboard("educationinfo.title"),
-            url: "/personal-info/educationinformationform",
+            url: "/personal-info/education-info",
           },
         ],
       },
@@ -52,11 +52,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         items: [
           {
             title: tDashboard("addressinfo.title"),
-            url: "/residential-info/addressinformationform",
+            url: "/residential-info/address-info",
           },
           {
             title: tDashboard("termsandconditions.title"),
-            url: "/residential-info/termsandconditionsform",
+            url: "/residential-info/terms&conditions",
           },
         ],
       },

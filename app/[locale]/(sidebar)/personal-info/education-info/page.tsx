@@ -1,6 +1,6 @@
 import EducationInfoForm from "./_educationinfoform";
 
-export default function BasicInfoForm() {
+export default function EducationInfo() {
   return (
     <div>
       <EducationInfoForm/>

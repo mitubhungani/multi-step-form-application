@@ -12,26 +12,26 @@
 // } from "@/components/ui/table";
 // import { toast } from "sonner";
 
-// import useBasicInformationForm from "@/store/BasicInformationFormStore/form";
-// import useAddressInformationForm from "@/store/AddressInformationFormStore/form";
+// import useCreateAccountForm from "@/store/BasicInformationFormStore/form";
+// import useAddressInfoForm from "@/store/AddressInformationFormStore/form";
 // import useTermsAndConditionsForm from "@/store/TermsAndConditionsFormStore/form";
-// import useEducationInformationForm from "@/store/EducationInformationFormStore/from";
+// import useEducationInfoForm from "@/store/EducationInformationFormStore/from";
 
 // const Dashboard = () => {
 //   const router = useRouter();
 
 //   const formInfo = {
 //     basic: {
-//       data: useBasicInformationForm((s) => s.basic),
-//       reset: useBasicInformationForm((s) => s.resetForm),
+//       data: useCreateAccountForm((s) => s.basic),
+//       reset: useCreateAccountForm((s) => s.resetForm),
 //     },
 //     education: {
-//       data: useEducationInformationForm((s) => s.basic),
-//       reset: useEducationInformationForm((s) => s.resetForm),
+//       data: useEducationInfoForm((s) => s.basic),
+//       reset: useEducationInfoForm((s) => s.resetForm),
 //     },
 //     address: {
-//       data: useAddressInformationForm((s) => s.basic),
-//       reset: useAddressInformationForm((s) => s.resetForm),
+//       data: useAddressInfoForm((s) => s.basic),
+//       reset: useAddressInfoForm((s) => s.resetForm),
 //     },
 //     terms: {
 //       data: useTermsAndConditionsForm((s) => s.basic),
@@ -112,13 +112,13 @@
 //   //  Continue button logic
 //   const completeForm = () => {
 //     if (!formInfo.basic.data?.filled) {
-//       navigateTo("/personal-info/basicinformationform");
+//       navigateTo("/personal-info/create-account");
 //     } else if (!formInfo.education.data?.filled) {
-//       navigateTo("/personal-info/educationinformationform");
+//       navigateTo("/personal-info/education-info");
 //     } else if (!formInfo.address.data?.filled) {
-//       navigateTo("/residential-info/addressinformationform");
+//       navigateTo("/residential-info/address-info");
 //     } else {
-//       navigateTo("/residential-info/termsandconditionsform");
+//       navigateTo("/residential-info/terms&conditions");
 //     }
 //   };
 
@@ -174,13 +174,13 @@
 //           "Basic Information",
 //           formInfo.basic.data,
 //           formInfo.basic.data?.filled,
-//           "/personal-info/basicinformationform"
+//           "/personal-info/create-account"
 //         )}
 //         {renderTable(
 //           "Education Information",
 //           formInfo.education.data,
 //           formInfo.education.data?.filled,
-//           "/personal-info/educationinformationform"
+//           "/personal-info/education-info"
 //         )}
 //       </div>
 
@@ -193,13 +193,13 @@
 //           "Address Information",
 //           formInfo.address.data,
 //           formInfo.address.data?.filled,
-//           "/residential-info/addressinformationform"
+//           "/residential-info/address-info"
 //         )}
 //         {renderTable(
 //           "Terms & Conditions",
 //           { Accepted: formInfo.terms.data?.filled ? "Yes" : "No" },
 //           formInfo.terms.data?.filled,
-//           "/residential-info/termsandconditionsform"
+//           "/residential-info/terms&conditions"
 //         )}
 //       </div>
 //     </div>
@@ -221,10 +221,10 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 
-import useBasicInformationForm from "@/store/BasicInformationFormStore/form";
-import useAddressInformationForm from "@/store/AddressInformationFormStore/form";
-import useTermsAndConditionsForm from "@/store/TermsAndConditionsFormStore/form";
-import useEducationInformationForm from "@/store/EducationInformationFormStore/from";
+import useCreateAccountForm from "@/store/Create-Account-Store/form";
+import useAddressInfoForm from "@/store/Address-Info-Store/form";
+import useTermsAndConditionsForm from "@/store/Terms&Conditions-Store/form";
+import useEducationInfoForm from "@/store/Education-Info-Store/from";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 
@@ -234,16 +234,16 @@ const Dashboard = () => {
 
   const formInfo = {
     basic: {
-      data: useBasicInformationForm((s) => s.basic),
-      reset: useBasicInformationForm((s) => s.resetForm),
+      data: useCreateAccountForm((s) => s.basic),
+      reset: useCreateAccountForm((s) => s.resetForm),
     },
     education: {
-      data: useEducationInformationForm((s) => s.basic),
-      reset: useEducationInformationForm((s) => s.resetForm),
+      data: useEducationInfoForm((s) => s.basic),
+      reset: useEducationInfoForm((s) => s.resetForm),
     },
     address: {
-      data: useAddressInformationForm((s) => s.basic),
-      reset: useAddressInformationForm((s) => s.resetForm),
+      data: useAddressInfoForm((s) => s.basic),
+      reset: useAddressInfoForm((s) => s.resetForm),
     },
     terms: {
       data: useTermsAndConditionsForm((s) => s.basic),
@@ -265,13 +265,13 @@ const Dashboard = () => {
 
   const completeForm = () => {
     if (!formInfo.basic.data?.filled) {
-      navigateTo("/personal-info/basicinformationform");
+      navigateTo("/personal-info/create-account");
     } else if (!formInfo.education.data?.filled) {
-      navigateTo("/personal-info/educationinformationform");
+      navigateTo("/personal-info/education-info");
     } else if (!formInfo.address.data?.filled) {
-      navigateTo("/residential-info/addressinformationform");
+      navigateTo("/residential-info/address-info");
     } else {
-      navigateTo("/residential-info/termsandconditionsform");
+      navigateTo("/residential-info/terms&conditions");
     }
   };
 
@@ -335,7 +335,7 @@ const Dashboard = () => {
               percentage === 100 ? "opacity-50 cursor-not-allowed" : ""
             }
           >
-            {percentage === 100 ? "Form Complete" : "Continue Form"}
+            {percentage === 100 ? t("progreshbar.completebtn") : t("progreshbar.continueformbtn")}
           </Button>
           <Button variant="destructive" onClick={resetForm}>
             {t("progreshbar.resetbtn")}
@@ -350,19 +350,19 @@ const Dashboard = () => {
             {t('personalinfo.title')}
           </AccordionTrigger>
           <AccordionContent>
-            <Link href="/personal-info/basicinformationform">
+            <Link href="/personal-info/create-account">
               {renderFormRow(
                 t('personalinform.title'),
                 formInfo.basic.data?.filled,
-                "/personal-info/basicinformationform"
+                "/personal-info/create-account"
               )}
             </Link>
 
-            <Link href="/personal-info/educationinformationform">
+            <Link href="/personal-info/education-info">
               {renderFormRow(
                 t('educationinfo.title'),
                 formInfo.education.data?.filled,
-                "/personal-info/educationinformationform"
+                "/personal-info/education-info"
               )}
             </Link>
           </AccordionContent>
@@ -373,18 +373,18 @@ const Dashboard = () => {
              {t('residentialinfo.title')}
           </AccordionTrigger>
           <AccordionContent>
-            <Link href="/residential-info/addressinformationform">
+            <Link href="/residential-info/address-info">
               {renderFormRow(
                  t('addressinfo.title'),
                 formInfo.address.data?.filled,
-                "/residential-info/addressinformationform"
+                "/residential-info/address-info"
               )}
             </Link>
-            <Link href="/residential-info/termsandconditionsform">
+            <Link href="/residential-info/terms&conditions">
               {renderFormRow(
                 t('termsandconditions.title'),
                 formInfo.terms.data?.filled,
-                "/residential-info/termsandconditionsform"
+                "/residential-info/terms&conditions"
               )}
             </Link>
           </AccordionContent>

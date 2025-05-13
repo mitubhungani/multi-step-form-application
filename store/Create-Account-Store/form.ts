@@ -1,15 +1,15 @@
-import { BasicInformationForm } from "@/types/type";
+import { CreateAccountForm } from "@/types/type";
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 
-interface BasicInformationFormStore {
-  basic: BasicInformationForm | null;
-  addFormValues: (values: BasicInformationForm) => void;
-  getFormValues: () => BasicInformationForm | null;
+interface CreateAccountFormStore {
+  basic: CreateAccountForm | null;
+  addFormValues: (values: CreateAccountForm) => void;
+  getFormValues: () => CreateAccountForm | null;
   resetForm: () => void;
 }
 
-const useBasicInformationForm = create<BasicInformationFormStore>()(
+const useCreateAccountForm = create<CreateAccountFormStore>()(
   devtools(
     persist(
       (set, get) => ({
@@ -23,4 +23,4 @@ const useBasicInformationForm = create<BasicInformationFormStore>()(
   )
 );
 
-export default useBasicInformationForm;
+export default useCreateAccountForm;

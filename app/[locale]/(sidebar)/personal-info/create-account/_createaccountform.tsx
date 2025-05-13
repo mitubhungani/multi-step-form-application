@@ -1,4 +1,4 @@
-// ///personal-info/basicinformationform
+// ///personal-info/create-account
 // "use client";
 
 // import React, { useEffect } from "react";
@@ -54,13 +54,13 @@
 
 //     localStorage.setItem("User-Data", JSON.stringify(userData));
 //     if (!education?.filled) {
-//       route.push("/personal-info/educationinformationform");
+//       route.push("/personal-info/education-info");
 //       return null;
 //     } else if (!address?.filled) {
-//       route.push("/residential-info/addressinformationform");
+//       route.push("/residential-info/address-info");
 //       return null;
 //     } else if (!terms?.filled) {
-//       route.push("/residential-info/termsandconditionsform");
+//       route.push("/residential-info/terms&conditions");
 //       return null;
 //     } else {
 //       route.push("/dashboard");
@@ -69,7 +69,7 @@
 
 //   const nextButton = () => {
 //     if (isFilled) {
-//       route.push("/personal-info/educationinformationform");
+//       route.push("/personal-info/education-info");
 //     }
 //   };
 
@@ -219,10 +219,10 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 // import { useUserData } from "@/hooks/localstorage";
-import useBasicInformationForm from "@/store/BasicInformationFormStore/form";
-import useEducationInformationForm from "@/store/EducationInformationFormStore/from";
-import useAddressInformationForm from "@/store/AddressInformationFormStore/form";
-import useTermsAndConditionsForm from "@/store/TermsAndConditionsFormStore/form";
+import useCreateAccountForm from "@/store/Create-Account-Store/form";
+import useEducationInfoForm from "@/store/Education-Info-Store/from";
+import useAddressInfoForm from "@/store/Address-Info-Store/form";
+import useTermsAndConditionsForm from "@/store/Terms&Conditions-Store/form";
 import { useTranslations } from "next-intl";
 
 // Schema
@@ -236,14 +236,14 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>;
 
-const BasicInformationForm = () => {
+const CreateAccountForm = () => {
   // const { address, education, terms } = useUserData();
 
   const tAccount = useTranslations("account");
 
-  const { addFormValues, basic: basicinfo } = useBasicInformationForm();
-  const eduinfo = useEducationInformationForm((s) => s.basic);
-  const addinfo = useAddressInformationForm((s) => s.basic);
+  const { addFormValues, basic: basicinfo } = useCreateAccountForm();
+  const eduinfo = useEducationInfoForm((s) => s.basic);
+  const addinfo = useAddressInfoForm((s) => s.basic);
   const tandcinfo = useTermsAndConditionsForm((s) => s.basic);
 
   const route = useRouter();
@@ -265,11 +265,11 @@ const BasicInformationForm = () => {
     addFormValues({ ...data, filled: true });
 
     if (!eduinfo) {
-      return route.push("/personal-info/educationinformationform");
+      return route.push("/personal-info/education-info");
     } else if (!addinfo) {
-      return route.push("/residential-info/addressinformationform");
+      return route.push("/residential-info/address-info");
     } else if (!tandcinfo) {
-      return route.push("/residential-info/termsandconditionsform");
+      return route.push("/residential-info/terms&conditions");
     } else {
       route.push("/dashboard");
     }
@@ -277,7 +277,7 @@ const BasicInformationForm = () => {
 
   const nextButton = () => {
     if (isFilled) {
-      route.push("/personal-info/educationinformationform");
+      route.push("/personal-info/education-info");
     }
   };
 
@@ -411,4 +411,4 @@ const BasicInformationForm = () => {
   );
 };
 
-export default BasicInformationForm;
+export default CreateAccountForm;
