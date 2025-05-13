@@ -224,29 +224,28 @@ import useEducationInfoForm from "@/store/Education-Info-Store/from";
 import useAddressInfoForm from "@/store/Address-Info-Store/form";
 import useTermsAndConditionsForm from "@/store/Terms&Conditions-Store/form";
 import { useTranslations } from "next-intl";
+import { CreateAccountForm } from "@/types/type";
 
-// Schema
-const schema = z.object({
-  username: z.string().min(2, "Username must be at least 2 characters"),
-  email: z.string().email("Invalid email address"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
-  gender: z.enum(["male", "female"], { required_error: "Gender is required" }),
-  filled: z.boolean().default(false).optional(),
-});
-
-type FormData = z.infer<typeof schema>;
-
-const CreateAccountForm = () => {
-  // const { address, education, terms } = useUserData();
-
+const CreateAccountFormm = () => {
   const tAccount = useTranslations("account");
+  const tError = useTranslations("account.errors");
+
+  const route = useRouter();
 
   const { addFormValues, basic: basicinfo } = useCreateAccountForm();
   const eduinfo = useEducationInfoForm((s) => s.basic);
   const addinfo = useAddressInfoForm((s) => s.basic);
   const tandcinfo = useTermsAndConditionsForm((s) => s.basic);
 
-  const route = useRouter();
+  const schema = z.object({
+    username: z.string().min(2, { message: tError("username_min") }),
+    email: z.string().email({ message: tError("email_invalid") }),
+    password: z.string().min(6, { message: tError("password_min") }),
+    gender: z.enum(["male", "female"], {
+      required_error: tError("gender_required"),
+    }),
+    filled: z.boolean().default(false).optional(),
+  });
 
   const {
     register,
@@ -255,13 +254,13 @@ const CreateAccountForm = () => {
     reset,
     watch,
     formState: { errors },
-  } = useForm<FormData>({
+  } = useForm<CreateAccountForm>({
     resolver: zodResolver(schema),
   });
 
   const isFilled = watch("filled");
 
-  const onSubmit = (data: FormData) => {
+  const onSubmit = (data: CreateAccountForm) => {
     addFormValues({ ...data, filled: true });
 
     if (!eduinfo) {
@@ -291,7 +290,7 @@ const CreateAccountForm = () => {
   }, [basicinfo, reset]);
 
   return (
-    <div className="flex items-center justify-center min-h-[91.2vh] bg-gradient-to-br from-gray-100 to-white px-4 py-8">
+    <div className="flex items-center justify-center min-h-[91.2vh]  px-4 ">
       <Card className="w-full max-w-xl border border-gray-300 shadow-lg rounded-3xl">
         <CardHeader className="pb-2 border-b">
           <CardTitle className="text-center text-3xl font-semibold text-gray-800">
@@ -411,4 +410,4 @@ const CreateAccountForm = () => {
   );
 };
 
-export default CreateAccountForm;
+export default CreateAccountFormm;

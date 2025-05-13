@@ -307,7 +307,7 @@ const Dashboard = () => {
   );
 
   return (
-    <div className="container mx-auto p-6 bg-gray-50 min-h-screen">
+    <div className="container mx-auto p-6 ">
       {/* Progress bar */}
       <div className="bg-white rounded-lg shadow-lg p-6 mb-8">
         <h2 className="text-2xl font-bold mb-4 text-gray-800">

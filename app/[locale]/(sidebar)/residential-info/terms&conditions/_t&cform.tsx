@@ -189,7 +189,7 @@ export default function TAndCForm() {
   }, [tanscinfo]);
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-100 to-white px-4 py-8">
+    <div className="flex items-center justify-center min-h-[91.2vh]  px-4">
       <Card className="w-full max-w-xl border border-gray-300 shadow-lg rounded-3xl">
         <CardHeader className="pb-2 border-b">
           <CardTitle className="text-center text-3xl font-semibold text-gray-800">

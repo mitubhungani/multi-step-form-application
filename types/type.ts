@@ -1,17 +1,17 @@
 export interface CreateAccountForm {
   username: string;
   email: string;
-  password?: string;
-  gender: string;
-  filled: boolean;
+  password: string;
+  gender: "male"| "female";
+  filled?: boolean;
 }
 
 export interface EducationInformationForm {
-  degree: string;
+degree: "bca" | "mca" | "btech" | "bcom"; // Restricted to specific values
   university: string;
   passingYear: number;
   cgpa: number;
-  filled: boolean;
+  filled?: boolean;
 }
 
 export interface AddressInformationForm {
@@ -19,7 +19,7 @@ export interface AddressInformationForm {
   city: string;
   state: string;
   postalCode: number;
-  filled: boolean;
+  filled?: boolean;
 }
 
 export interface TermsAndConditionsForm {

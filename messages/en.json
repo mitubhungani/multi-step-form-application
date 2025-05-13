@@ -37,36 +37,54 @@
       "title": "Multi Step Form",
       "subtitle": "Forms"
     },
-    "dashsection":{
+    "dashsection": {
       "title": "Dashboard"
     }
   },
-  "account":{
-   "header": {
+  "account": {
+    "header": {
       "title": "Create Account"
     },
-    "username":"Username",
-    "email":"Email",
-    "password":"Password",
-    "gender":"Gender",
-    "male":"Male",
-    "female":"Female",
-    "submit":"Submit",
-    "previous":"Previous",
-    "nextbtn":"Next"
+    "errors": {
+      "username_min": "Username must be at least 2 characters",
+      "email_invalid": "Invalid email address",
+      "password_min": "Password must be at least 6 characters",
+      "gender_required": "Gender is required"
+    },
+    "username": "Username",
+    "email": "Email",
+    "password": "Password",
+    "gender": "Gender",
+    "male": "Male",
+    "female": "Female",
+    "submit": "Submit",
+    "previous": "Previous",
+    "nextbtn": "Next"
   },
-  "education":{
+  "education": {
     "header": {
       "title": "Education Information"
     },
-    "degree":"Degree",
-    "university":"University",
-    "passing-year":"Passing Year",
-    "cgpa":"CGPA"
+    "errors": {
+      "degree_required": "Degree selection is required",
+      "university_required": "University name is required",
+      "passing_year_invalid": "Enter a valid year between 1900 and current year",
+      "cgpa_invalid": "CGPA must be between 0 and 10"
+    },
+    "degree": "Degree",
+    "university": "University",
+    "passing-year": "Passing Year",
+    "cgpa": "CGPA"
   },
   "address": {
     "header": {
       "title": "Address Information"
+    },
+    "errors": {
+      "address_required": "Address is required",
+      "city_required": "City is required",
+      "state_required": "State is required",
+      "postalcode_invalid": "Postal code must be 5 to 6 digits"
     },
     "addresslabel": "Address",
     "city": "City",

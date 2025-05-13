@@ -206,48 +206,46 @@ import useCreateAccountForm from "@/store/Create-Account-Store/form";
 import useEducationInfoForm from "@/store/Education-Info-Store/from";
 import useTermsAndConditionsForm from "@/store/Terms&Conditions-Store/form";
 import { useTranslations } from "next-intl";
-
-// Schema
-const schema = z.object({
-  address: z.string().min(1, "Address is required"),
-  city: z.string().min(1, "City is required"),
-  state: z.string().min(1, "State is required"),
-  postalCode: z.coerce
-  .number()
-  .gte(10000, { message: "Postal code must be at least 5 digits" })
-  .lte(999999, { message: "Postal code must be no more than 6 digits" }),
-
-  filled: z.boolean().default(false).optional(),
-});
-
-type AddressFormData = z.infer<typeof schema>;
+import { AddressInformationForm } from "@/types/type";
 
 const AddressInfoForm = () => {
   const taddress = useTranslations("address");
   const taccount = useTranslations("account");
+  const tError = useTranslations("address.errors");
 
   const router = useRouter();
 
   const basicinfo = useCreateAccountForm((s) => s.basic);
   const eduinfo = useEducationInfoForm((s) => s.basic);
   const tandcinfo = useTermsAndConditionsForm((s) => s.basic);
-
   const addFormValues = useAddressInfoForm((s) => s.addFormValues);
   const addinfo = useAddressInfoForm((s) => s.basic);
+
+  const schema = z.object({
+    address: z.string().min(1, { message: tError("address_required") }),
+    city: z.string().min(1, { message: tError("city_required") }),
+    state: z.string().min(1, { message: tError("state_required") }),
+    postalCode: z.coerce
+      .number()
+      .gte(10000, { message: tError("postalcode_invalid") })
+      .lte(999999, { message: tError("postalcode_invalid") }),
+
+    filled: z.boolean().default(false).optional(),
+  });
 
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<AddressFormData>({
+  } = useForm<AddressInformationForm>({
     resolver: zodResolver(schema),
   });
 
   const isFilled = addinfo?.filled ?? false;
 
   const onSubmit = useCallback(
-    (data: AddressFormData) => {
+    (data: AddressInformationForm) => {
       addFormValues({ ...data, filled: true });
 
       if (!basicinfo) {
@@ -280,7 +278,7 @@ const AddressInfoForm = () => {
   }, [addinfo, reset]);
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-100 to-white px-4 py-8">
+    <div className="flex items-center justify-center min-h-[91.2vh]  px-4">
       <Card className="w-full max-w-xl border border-gray-300 shadow-lg rounded-3xl">
         <CardHeader className="pb-2 border-b">
           <CardTitle className="text-center text-3xl font-semibold text-gray-800">
@@ -354,7 +352,9 @@ const AddressInfoForm = () => {
                 {...register("postalCode")}
               />
               {errors.postalCode && (
-                <p className="text-sm text-red-600">{errors.postalCode.message}</p>
+                <p className="text-sm text-red-600">
+                  {errors.postalCode.message}
+                </p>
               )}
             </div>
 

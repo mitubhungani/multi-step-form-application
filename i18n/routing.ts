@@ -5,7 +5,14 @@ export const routing = defineRouting({
   locales: ['en', 'guj'],
  
   // Used when no locale matches
-  defaultLocale: 'en'
+  defaultLocale: 'en',
+    localePrefix: 'as-needed',
+
+  // pathnames:{
+  //   "/en/dashboard":{
+  //     en:"/dashboard"
+  //   }
+  // }
 });
 
 export type Locale = (typeof routing.locales)[number];

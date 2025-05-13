@@ -45,6 +45,12 @@
     "header": {
       "title": "એકાઉન્ટ બનાવો"
     },
+    "errors": {
+    "username_min": "યૂઝરનામ ઓછામાં ઓછું 2 અક્ષર હોવું જોઈએ",
+    "email_invalid": "અમાન્ય ઈમેલ એડ્રેસ",
+    "password_min": "પાસવર્ડ ઓછામાં ઓછો 6 અક્ષર હોવો જોઈએ",
+    "gender_required": "લિંગ પસંદ કરવું જરૂરી છે"
+  },
     "username": "યૂઝરનામ",
     "email": "ઈમેલ",
     "password": "પાસવર્ડ",
@@ -59,6 +65,12 @@
     "header": {
       "title": "શૈક્ષણિક માહિતી"
     },
+    "errors": {
+    "degree_required": "પદવી પસંદ કરવી આવશ્યક છે",
+    "university_required": "વિશ્વવિદ્યાલયનું નામ જરૂરી છે",
+    "passing_year_invalid": "કૃપા કરીને 1900 અને વર્તમાન વર્ષની વચ્ચેનું માન્ય વર્ષ દાખલ કરો",
+    "cgpa_invalid": "CGPA 0 થી 10 વચ્ચે હોવું જોઈએ"
+  },
     "degree": "ડિગ્રી",
     "university": "વિશ્વવિદ્યાલય",
     "passing-year": "પાસ થવાની સાલ",
@@ -68,6 +80,13 @@
     "header": {
       "title": "સરનામાની માહિતી"
     },
+    "errors": {
+  "address_required": "સરનામું જરૂરી છે",
+  "city_required": "શહેર જરૂરી છે",
+  "state_required": "રાજ્ય જરૂરી છે",
+  "postalcode_invalid": "પોસ્ટલ કોડ 5 થી 6 અંકનો હોવો જોઈએ"
+}
+,
     "addresslabel": "સરનામું",
     "city": "શહેર",
     "state": "રાજ્ય",
