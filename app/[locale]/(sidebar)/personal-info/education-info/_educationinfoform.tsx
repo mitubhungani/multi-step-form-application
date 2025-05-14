@@ -57,8 +57,6 @@
 //   const onSubmit = (data: EducationFormData) => {
 //     const userData = JSON.parse(localStorage.getItem("User-Data") || "{}");
 
-
-
 //     userData["personal-info"] = {
 //       ...userData["personal-info"],
 //       educationinformationform: {
@@ -68,13 +66,13 @@
 //     };
 //     localStorage.setItem("User-Data", JSON.stringify(userData));
 //     if (!basic?.filled) {
-//       route.push("/personal-info/basicinformationform");
+//       route.push("/personal-info/create-account");
 //       return null;
 //     } else if (!address?.filled) {
-//       route.push("/residential-info/addressinformationform");
+//       route.push("/residential-info/address-info");
 //       return null;
 //     } else if (!terms?.filled) {
-//       route.push("/residential-info/termsandconditionsform");
+//       route.push("/residential-info/terms&conditions");
 //       return null;
 //     } else {
 //       route.push("/dashboard");
@@ -83,12 +81,12 @@
 
 //   const nextButton = () => {
 //     if (formData?.filled) {
-//       route.push("/residential-info/addressinformationform");
+//       route.push("/residential-info/address-info");
 //     }
 //   };
 
 //   const previousButton = () => {
-//     route.push("/personal-info/basicinformationform");
+//     route.push("/personal-info/create-account");
 //   };
 
 //   useEffect(() => {
@@ -222,14 +220,6 @@
 
 // export default EducationInfoForm;
 
-
-
-
-
-
-
-
-
 "use client";
 
 import React, { useEffect } from "react";
@@ -250,28 +240,41 @@ import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { useRouter } from "next/navigation";
 
-import useBasicInformationForm from "@/store/BasicInformationFormStore/form";
-import useEducationInformationForm from "@/store/EducationInformationFormStore/from";
-import useAddressInformationForm from "@/store/AddressInformationFormStore/form";
-import useTermsAndConditionsForm from "@/store/TermsAndConditionsFormStore/form";
-
-// Zod schema
-const educationSchema = z.object({
-  degree: z.enum(["bca", "mca", "btech", "bcom"]),
-  university: z.string().min(1),
-  passingYear: z.coerce.number().min(1900).max(new Date().getFullYear()),
-  cgpa: z.coerce.number().min(0).max(10),
-  filled: z.boolean().optional(),
-});
-type EducationFormData = z.infer<typeof educationSchema>;
+import useCreateAccountForm from "@/store/Create-Account-Store/form";
+import useEducationInfoForm from "@/store/Education-Info-Store/from";
+import useAddressInfoForm from "@/store/Address-Info-Store/form";
+import useTermsAndConditionsForm from "@/store/Terms&Conditions-Store/form";
+import { useTranslations } from "next-intl";
+import { EducationInformationForm } from "@/types/type";
 
 export default function EducationInfoForm() {
+  const tEducation = useTranslations("education");
+  const tError = useTranslations("education.errors");
+  const taccount = useTranslations("account");
   const router = useRouter();
 
-  const basicInfo = useBasicInformationForm((s) => s.basic);
-  const { basic: eduInfo, addFormValues } = useEducationInformationForm();
-  const addressInfo = useAddressInformationForm((s) => s.basic);
+  const basicInfo = useCreateAccountForm((s) => s.basic);
+  const { basic: eduInfo, addFormValues } = useEducationInfoForm();
+  const addressInfo = useAddressInfoForm((s) => s.basic);
   const termsInfo = useTermsAndConditionsForm((s) => s.basic);
+
+  const educationSchema = z.object({
+    degree: z.enum(["bca", "mca", "btech", "bcom"], {
+      required_error: tError("degree_required"),
+    }),
+    university: z.string().min(1, { message: tError("university_required") }),
+    passingYear: z.coerce
+      .number()
+      .min(1900, { message: tError("passing_year_invalid") })
+      .max(new Date().getFullYear(), {
+        message: tError("passing_year_invalid"),
+      }),
+    cgpa: z.coerce
+      .number()
+      .min(0, { message: tError("cgpa_invalid") })
+      .max(10, { message: tError("cgpa_invalid") }),
+    filled: z.boolean().optional(),
+  });
 
   const {
     register,
@@ -279,21 +282,19 @@ export default function EducationInfoForm() {
     control,
     reset,
     formState: { errors },
-  } = useForm<EducationFormData>({
-    resolver: zodResolver(educationSchema)
+  } = useForm<EducationInformationForm>({
+    resolver: zodResolver(educationSchema),
   });
 
-
-
-  const onSubmit = (data: EducationFormData) => {
+  const onSubmit = (data: EducationInformationForm) => {
     addFormValues({ ...data, filled: true });
 
     if (!basicInfo) {
-      router.push("/personal-info/basicinformationform");
+      router.push("/personal-info/create-account");
     } else if (!addressInfo) {
-      router.push("/residential-info/addressinformationform");
+      router.push("/residential-info/address-info");
     } else if (!termsInfo) {
-      router.push("/residential-info/termsandconditionsform");
+      router.push("/residential-info/terms&conditions");
     } else {
       router.push("/dashboard");
     }
@@ -303,30 +304,31 @@ export default function EducationInfoForm() {
     if (eduInfo) {
       reset({
         ...eduInfo,
-        degree: eduInfo.degree as "bca" | "mca" | "btech" | "bcom",
+        degree: eduInfo.degree as "bca" | "mca" | "btech" | "bcom" | undefined,
       });
     }
   }, [eduInfo, reset]);
+  // console.log(eduInfo);
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 px-4">
+    <div className="flex items-center justify-center min-h-[91.2vh]  px-4">
       <Card className="w-full max-w-xl border border-gray-300 shadow-lg rounded-2xl">
         <CardHeader>
           <CardTitle className="text-center text-2xl font-semibold text-gray-800">
-            Education Information
+            {tEducation("header.title")}
           </CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
             {/* Degree */}
             <div className="space-y-1">
-              <Label htmlFor="degree">Degree</Label>
+              <Label htmlFor="degree">{tEducation("degree")}</Label>
               <Controller
                 name="degree"
                 control={control}
                 render={({ field }) => (
                   <Select
-                    value={field.value}
+                    value={eduInfo?.degree ? eduInfo?.degree : field.value}
                     onValueChange={field.onChange}
                     disabled={eduInfo?.filled}
                   >
@@ -349,7 +351,7 @@ export default function EducationInfoForm() {
 
             {/* University */}
             <div className="space-y-1">
-              <Label htmlFor="university">University</Label>
+              <Label htmlFor="university">{tEducation("university")}</Label>
               <Input
                 id="university"
                 {...register("university")}
@@ -365,10 +367,9 @@ export default function EducationInfoForm() {
 
             {/* Passing Year */}
             <div className="space-y-1">
-              <Label htmlFor="passingYear">Passing Year</Label>
+              <Label htmlFor="passingYear">{tEducation("passing-year")}</Label>
               <Input
                 id="passingYear"
-                type="number"
                 max={new Date().getFullYear()}
                 {...register("passingYear", { valueAsNumber: true })}
                 disabled={eduInfo?.filled}
@@ -383,10 +384,9 @@ export default function EducationInfoForm() {
 
             {/* CGPA */}
             <div className="space-y-1">
-              <Label htmlFor="cgpa">CGPA</Label>
+              <Label htmlFor="cgpa">{tEducation("cgpa")}</Label>
               <Input
                 id="cgpa"
-                type="number"
                 step="0.01"
                 {...register("cgpa", { valueAsNumber: true })}
                 disabled={eduInfo?.filled}
@@ -402,26 +402,23 @@ export default function EducationInfoForm() {
               className="w-full text-white"
               disabled={eduInfo?.filled}
             >
-              Submit
+              {taccount("submit")}
             </Button>
           </form>
         </CardContent>
 
         {/* navigation buttons */}
         <div className="px-4 flex justify-between py-2">
-          <Button
-            onClick={() => router.push("/personal-info/basicinformationform")}
-          >
-            Previous
+          <Button onClick={() => router.push("/personal-info/create-account")}>
+            {taccount("previous")}
           </Button>
           <Button
             onClick={() =>
-              eduInfo?.filled &&
-              router.push("/residential-info/addressinformationform")
+              eduInfo?.filled && router.push("/residential-info/address-info")
             }
             disabled={!eduInfo?.filled}
           >
-            Next
+            {taccount("nextbtn")}
           </Button>
         </div>
       </Card>

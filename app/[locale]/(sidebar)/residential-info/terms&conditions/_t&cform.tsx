@@ -1,4 +1,4 @@
-// // /residential-info/termsandconditionsform
+// // /residential-info/terms&conditions
 // "use client";
 
 // import React, { useEffect, useState } from "react";
@@ -25,15 +25,15 @@
 //       userData["residential-info"] = {...userData["residential-info"],termsandconditionsform: {filled: true}};
 //       localStorage.setItem("User-Data", JSON.stringify(userData));
 //       if(!basic?.filled){
-//         route.push("/personal-info/basicinformationform");
+//         route.push("/personal-info/create-account");
 //         return null
 //       }
 //       else if(!education?.filled){
-//         route.push("/personal-info/educationinformationform");
+//         route.push("/personal-info/education-info");
 //         return null
 //       }
 //       else if(!address?.filled){
-//         route.push("/residential-info/addressinformationform");
+//         route.push("/residential-info/address-info");
 //         return null
 //       }
 //       else{
@@ -43,7 +43,7 @@
 //   };
 
 //   const previousButton = () => {
-//     route.push("/residential-info/addressinformationform");
+//     route.push("/residential-info/address-info");
 //   };
 
 //   useEffect(() => {
@@ -137,18 +137,21 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { useRouter } from "next/navigation";
 
-import useBasicInformationForm from "@/store/BasicInformationFormStore/form";
-import useEducationInformationForm from "@/store/EducationInformationFormStore/from";
-import useAddressInformationForm from "@/store/AddressInformationFormStore/form";
-import useTermsAndConditionsForm from "@/store/TermsAndConditionsFormStore/form";
+import useCreateAccountForm from "@/store/Create-Account-Store/form";
+import useEducationInfoForm from "@/store/Education-Info-Store/from";
+import useAddressInfoForm from "@/store/Address-Info-Store/form";
+import useTermsAndConditionsForm from "@/store/Terms&Conditions-Store/form";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
 export default function TAndCForm() {
+  const taccount = useTranslations('account')
+  const ttandc = useTranslations('tandc')
   const router = useRouter();
 
-  const basicinfo = useBasicInformationForm((s) => s.basic);
-  const eduinfo = useEducationInformationForm((s) => s.basic);
-  const addinfo = useAddressInformationForm((s) => s.basic);
+  const basicinfo = useCreateAccountForm((s) => s.basic);
+  const eduinfo = useEducationInfoForm((s) => s.basic);
+  const addinfo = useAddressInfoForm((s) => s.basic);
   const { addFormValues, basic: tanscinfo } = useTermsAndConditionsForm();
 
   const [isChecked, setIsChecked] = useState(false);
@@ -162,11 +165,11 @@ export default function TAndCForm() {
     addFormValues({ filled: true });
     setIsFormFilled(true);
     if (!basicinfo) {
-      router.push("/personal-info/basicinformationform");
+      router.push("/personal-info/create-account");
     } else if (!eduinfo) {
-      router.push("/personal-info/educationinformationform");
+      router.push("/personal-info/education-info");
     } else if (!addinfo) {
-      router.push("/residential-info/addressinformationform");
+      router.push("/residential-info/address-info");
     } else {
       router.push("/dashboard");
     }
@@ -175,7 +178,7 @@ export default function TAndCForm() {
   };
 
   const previousButton = () => {
-    router.push("/residential-info/addressinformationform");
+    router.push("/residential-info/address-info");
   };
 
   useEffect(() => {
@@ -186,25 +189,25 @@ export default function TAndCForm() {
   }, [tanscinfo]);
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-100 to-white px-4 py-8">
+    <div className="flex items-center justify-center min-h-[91.2vh]  px-4">
       <Card className="w-full max-w-xl border border-gray-300 shadow-lg rounded-3xl">
         <CardHeader className="pb-2 border-b">
           <CardTitle className="text-center text-3xl font-semibold text-gray-800">
-            Terms and Conditions
+            {ttandc('header.title')}
           </CardTitle>
         </CardHeader>
         <CardContent className="p-6 space-y-6">
           {/* T&C Text */}
           <div className="space-y-4 text-gray-600">
             <p className="font-semibold text-gray-800">
-              Please read and accept:
+              {ttandc('title')}
             </p>
             <ul className="list-disc pl-5">
-              <li>Use of the service is at your own risk.</li>
-              <li>We do not guarantee the accuracy of the information.</li>
-              <li>All content is protected by copyright laws.</li>
-              <li>We may update these terms without notice.</li>
-              <li>You must keep your account info confidential.</li>
+              <li>{ttandc('line1')}</li>
+              <li>{ttandc('line2')}</li>
+              <li>{ttandc('line3')}</li>
+              <li>{ttandc('line4')}</li>
+              <li>{ttandc('line5')}</li>
             </ul>
           </div>
 
@@ -219,7 +222,7 @@ export default function TAndCForm() {
               className="h-5 w-5 text-black border-gray-300 rounded"
             />
             <Label htmlFor="acceptTAndC" className="text-gray-700 font-medium">
-              I accept the terms and conditions
+              {ttandc('checkbtn')}
             </Label>
           </div>
 
@@ -230,14 +233,14 @@ export default function TAndCForm() {
             disabled={!isChecked || isFormFilled}
             className="w-full text-white py-2 rounded-xl"
           >
-            {isFormFilled ? "Already Submitted" : "Submit"}
+            {isFormFilled ? ttandc('tandcsubmitbtn') : taccount("submit")}
           </Button>
         </CardContent>
 
         {/* Previous Button */}
         <div className="px-4">
           <Button className="w-1/4" onClick={previousButton}>
-            Previous
+            {taccount('previous')}
           </Button>
         </div>
       </Card>

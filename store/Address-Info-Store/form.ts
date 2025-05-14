@@ -9,7 +9,7 @@ interface AddressInformationFormStore {
   resetForm: () => void;
 }
 
-const useAddressInformationForm = create<AddressInformationFormStore>()(
+const useAddressInfoForm = create<AddressInformationFormStore>()(
   devtools(
     persist(
       (set, get) => ({
@@ -23,4 +23,4 @@ const useAddressInformationForm = create<AddressInformationFormStore>()(
   )
 );
 
-export default useAddressInformationForm;
+export default useAddressInfoForm;

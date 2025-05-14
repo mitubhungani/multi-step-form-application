@@ -1,4 +1,4 @@
-// ///personal-info/basicinformationform
+// ///personal-info/create-account
 // "use client";
 
 // import React, { useEffect } from "react";
@@ -54,13 +54,13 @@
 
 //     localStorage.setItem("User-Data", JSON.stringify(userData));
 //     if (!education?.filled) {
-//       route.push("/personal-info/educationinformationform");
+//       route.push("/personal-info/education-info");
 //       return null;
 //     } else if (!address?.filled) {
-//       route.push("/residential-info/addressinformationform");
+//       route.push("/residential-info/address-info");
 //       return null;
 //     } else if (!terms?.filled) {
-//       route.push("/residential-info/termsandconditionsform");
+//       route.push("/residential-info/terms&conditions");
 //       return null;
 //     } else {
 //       route.push("/dashboard");
@@ -69,7 +69,7 @@
 
 //   const nextButton = () => {
 //     if (isFilled) {
-//       route.push("/personal-info/educationinformationform");
+//       route.push("/personal-info/education-info");
 //     }
 //   };
 
@@ -219,31 +219,33 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 // import { useUserData } from "@/hooks/localstorage";
-import useBasicInformationForm from "@/store/BasicInformationFormStore/form";
-import useEducationInformationForm from "@/store/EducationInformationFormStore/from";
-import useAddressInformationForm from "@/store/AddressInformationFormStore/form";
-import useTermsAndConditionsForm from "@/store/TermsAndConditionsFormStore/form";
+import useCreateAccountForm from "@/store/Create-Account-Store/form";
+import useEducationInfoForm from "@/store/Education-Info-Store/from";
+import useAddressInfoForm from "@/store/Address-Info-Store/form";
+import useTermsAndConditionsForm from "@/store/Terms&Conditions-Store/form";
+import { useTranslations } from "next-intl";
+import { CreateAccountForm } from "@/types/type";
 
-// Schema
-const schema = z.object({
-  username: z.string().min(2, "Username must be at least 2 characters"),
-  email: z.string().email("Invalid email address"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
-  gender: z.enum(["male", "female"], { required_error: "Gender is required" }),
-  filled: z.boolean().default(false).optional(),
-});
-
-type FormData = z.infer<typeof schema>;
-
-const BasicInformationForm = () => {
-  // const { address, education, terms } = useUserData();
-
-  const { addFormValues, basic: basicinfo } = useBasicInformationForm();
-  const eduinfo = useEducationInformationForm((s) => s.basic);
-  const addinfo = useAddressInformationForm((s) => s.basic);
-  const tandcinfo = useTermsAndConditionsForm((s) => s.basic);
+const CreateAccountFormm = () => {
+  const tAccount = useTranslations("account");
+  const tError = useTranslations("account.errors");
 
   const route = useRouter();
+
+  const { addFormValues, basic: basicinfo } = useCreateAccountForm();
+  const eduinfo = useEducationInfoForm((s) => s.basic);
+  const addinfo = useAddressInfoForm((s) => s.basic);
+  const tandcinfo = useTermsAndConditionsForm((s) => s.basic);
+
+  const schema = z.object({
+    username: z.string().min(2, { message: tError("username_min") }),
+    email: z.string().email({ message: tError("email_invalid") }),
+    password: z.string().min(6, { message: tError("password_min") }),
+    gender: z.enum(["male", "female"], {
+      required_error: tError("gender_required"),
+    }),
+    filled: z.boolean().default(false).optional(),
+  });
 
   const {
     register,
@@ -252,21 +254,21 @@ const BasicInformationForm = () => {
     reset,
     watch,
     formState: { errors },
-  } = useForm<FormData>({
+  } = useForm<CreateAccountForm>({
     resolver: zodResolver(schema),
   });
 
   const isFilled = watch("filled");
 
-  const onSubmit = (data: FormData) => {
+  const onSubmit = (data: CreateAccountForm) => {
     addFormValues({ ...data, filled: true });
 
     if (!eduinfo) {
-      return route.push("/personal-info/educationinformationform");
+      return route.push("/personal-info/education-info");
     } else if (!addinfo) {
-      return route.push("/residential-info/addressinformationform");
+      return route.push("/residential-info/address-info");
     } else if (!tandcinfo) {
-      return route.push("/residential-info/termsandconditionsform");
+      return route.push("/residential-info/terms&conditions");
     } else {
       route.push("/dashboard");
     }
@@ -274,25 +276,23 @@ const BasicInformationForm = () => {
 
   const nextButton = () => {
     if (isFilled) {
-      route.push("/personal-info/educationinformationform");
+      route.push("/personal-info/education-info");
     }
   };
 
   useEffect(() => {
     if (basicinfo) {
-      reset({
-        ...basicinfo,
-        gender: basicinfo.gender as "male" | "female" | undefined,
-      });
+      reset({ ...basicinfo });
     }
   }, [basicinfo, reset]);
+  
 
   return (
-    <div className="flex items-center justify-center min-h-[91.2vh] bg-gradient-to-br from-gray-100 to-white px-4 py-8">
+    <div className="flex items-center justify-center min-h-[91.2vh]  px-4 ">
       <Card className="w-full max-w-xl border border-gray-300 shadow-lg rounded-3xl">
         <CardHeader className="pb-2 border-b">
           <CardTitle className="text-center text-3xl font-semibold text-gray-800">
-            Create Account
+            {tAccount("header.title")}
           </CardTitle>
         </CardHeader>
         <CardContent className="p-6 space-y-6">
@@ -300,7 +300,7 @@ const BasicInformationForm = () => {
             {/* Username */}
             <div className="space-y-2">
               <Label htmlFor="username" className="text-gray-700 font-medium">
-                Username
+                {tAccount("username")}
               </Label>
               <Input
                 id="username"
@@ -318,7 +318,7 @@ const BasicInformationForm = () => {
             {/* Email */}
             <div className="space-y-2">
               <Label htmlFor="email" className="text-gray-700 font-medium">
-                Email
+                {tAccount("email")}
               </Label>
               <Input
                 id="email"
@@ -335,7 +335,7 @@ const BasicInformationForm = () => {
             {/* Password */}
             <div className="space-y-2">
               <Label htmlFor="password" className="text-gray-700 font-medium">
-                Password
+                {tAccount("password")}
               </Label>
               <Input
                 id="password"
@@ -353,7 +353,9 @@ const BasicInformationForm = () => {
 
             {/* Gender */}
             <div className="space-y-2">
-              <Label className="text-gray-700 font-medium">Gender</Label>
+              <Label className="text-gray-700 font-medium">
+                {tAccount("gender")}
+              </Label>
               <Controller
                 name="gender"
                 control={control}
@@ -366,11 +368,11 @@ const BasicInformationForm = () => {
                   >
                     <div className="flex items-center space-x-2">
                       <RadioGroupItem value="male" id="male" />
-                      <Label htmlFor="male">Male</Label>
+                      <Label htmlFor="male">{tAccount("male")}</Label>
                     </div>
                     <div className="flex items-center space-x-2">
                       <RadioGroupItem value="female" id="female" />
-                      <Label htmlFor="female">Female</Label>
+                      <Label htmlFor="female">{tAccount("female")}</Label>
                     </div>
                   </RadioGroup>
                 )}
@@ -386,7 +388,7 @@ const BasicInformationForm = () => {
               className="w-full text-white py-2 rounded-xl"
               disabled={isFilled}
             >
-              Submit
+              {tAccount("submit")}
             </Button>
           </form>
         </CardContent>
@@ -398,7 +400,7 @@ const BasicInformationForm = () => {
             disabled={!isFilled}
             onClick={nextButton}
           >
-            Next
+            {tAccount("nextbtn")}
           </Button>
         </div>
       </Card>
@@ -406,4 +408,4 @@ const BasicInformationForm = () => {
   );
 };
 
-export default BasicInformationForm;
+export default CreateAccountFormm;

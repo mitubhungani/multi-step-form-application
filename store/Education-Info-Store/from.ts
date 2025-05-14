@@ -10,7 +10,7 @@ interface EducationInformationFormStore {
   resetForm: () => void;
 }
 
-const useEducationInformationForm = create<EducationInformationFormStore>()(
+const useEducationInfoForm = create<EducationInformationFormStore>()(
   devtools(
     persist(
       (set, get) => ({
@@ -24,4 +24,4 @@ const useEducationInformationForm = create<EducationInformationFormStore>()(
   )
 );
 
-export default useEducationInformationForm;
+export default useEducationInfoForm;

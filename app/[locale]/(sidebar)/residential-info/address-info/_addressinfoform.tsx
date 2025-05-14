@@ -1,4 +1,4 @@
-// // /residential-info/addressinformationform
+// // /residential-info/address-info
 
 // "use client";
 
@@ -58,15 +58,15 @@
 //     };
 //     localStorage.setItem("User-Data", JSON.stringify(userData));
 //     if(!basic?.filled){
-//       route.push("/personal-info/basicinformationform");
+//       route.push("/personal-info/create-account");
 //       return null
 //     }
 //     else if(!education?.filled){
-//       route.push("/personal-info/educationinformationform");
+//       route.push("/personal-info/education-info");
 //       return null
 //     }
 //     else if(!terms?.filled){
-//       route.push("/residential-info/termsandconditionsform");
+//       route.push("/residential-info/terms&conditions");
 //       return null
 //     }
 //     else{
@@ -75,12 +75,12 @@
 //   };
 //   const nextButton = () => {
 //     if (formData?.filled) {
-//       route.push("/residential-info/termsandconditionsform");
+//       route.push("/residential-info/terms&conditions");
 //     }
 //   };
 
 //   const previousButton = () => {
-//     route.push("/personal-info/educationinformationform");
+//     route.push("/personal-info/education-info");
 //   };
 
 //   useEffect(() => {
@@ -192,7 +192,7 @@
 
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -201,97 +201,102 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useRouter } from "next/navigation";
-import useAddressInformationForm from "@/store/AddressInformationFormStore/form";
-import useBasicInformationForm from "@/store/BasicInformationFormStore/form";
-import useEducationInformationForm from "@/store/EducationInformationFormStore/from";
-import useTermsAndConditionsForm from "@/store/TermsAndConditionsFormStore/form";
-
-// Schema
-const schema = z.object({
-  address: z.string().min(1, "Address is required"),
-  city: z.string().min(1, "City is required"),
-  state: z.string().min(1, "State is required"),
-  postalCode: z.coerce
-    .number()
-    .int()
-    .gte(10000, { message: "Postal code must be at least 5 digits" })
-    .lte(999999, { message: "Postal code must be no more than 6 digits" }),
-  filled: z.boolean().default(false).optional(),
-});
-
-type AddressFormData = z.infer<typeof schema>;
+import useAddressInfoForm from "@/store/Address-Info-Store/form";
+import useCreateAccountForm from "@/store/Create-Account-Store/form";
+import useEducationInfoForm from "@/store/Education-Info-Store/from";
+import useTermsAndConditionsForm from "@/store/Terms&Conditions-Store/form";
+import { useTranslations } from "next-intl";
+import { AddressInformationForm } from "@/types/type";
 
 const AddressInfoForm = () => {
-  const basicinfo = useBasicInformationForm((s) => s.basic);
-  const eduinfo = useEducationInformationForm((s) => s.basic);
-  const { addFormValues, basic: addinfo } = useAddressInformationForm();
-  const tandcinfo = useTermsAndConditionsForm((s) => s.basic);
+  const taddress = useTranslations("address");
+  const taccount = useTranslations("account");
+  const tError = useTranslations("address.errors");
 
-  const route = useRouter();
+  const router = useRouter();
+
+  const basicinfo = useCreateAccountForm((s) => s.basic);
+  const eduinfo = useEducationInfoForm((s) => s.basic);
+  const tandcinfo = useTermsAndConditionsForm((s) => s.basic);
+  const addFormValues = useAddressInfoForm((s) => s.addFormValues);
+  const addinfo = useAddressInfoForm((s) => s.basic);
+
+  const schema = z.object({
+    address: z.string().min(1, { message: tError("address_required") }),
+    city: z.string().min(1, { message: tError("city_required") }),
+    state: z.string().min(1, { message: tError("state_required") }),
+    postalCode: z.coerce
+      .number()
+      .gte(10000, { message: tError("postalcode_invalid") })
+      .lte(999999, { message: tError("postalcode_invalid") }),
+
+    filled: z.boolean().default(false).optional(),
+  });
 
   const {
     register,
     handleSubmit,
     reset,
-    watch,
     formState: { errors },
-  } = useForm<AddressFormData>({
+  } = useForm<AddressInformationForm>({
     resolver: zodResolver(schema),
   });
 
-  const isFilled = watch("filled");
+  const isFilled = addinfo?.filled ?? false;
 
-  const onSubmit = (data: AddressFormData) => {
-    addFormValues({ ...data, filled: true });
+  const onSubmit = useCallback(
+    (data: AddressInformationForm) => {
+      addFormValues({ ...data, filled: true });
 
-    if (!basicinfo) {
-      route.push("/personal-info/basicinformationform");
-    } else if (!eduinfo) {
-      route.push("/personal-info/educationinformationform");
-    } else if (!tandcinfo) {
-      route.push("/residential-info/termsandconditionsform");
-    } else {
-      route.push("/dashboard");
-    }
-  };
+      if (!basicinfo) {
+        router.push("/personal-info/create-account");
+      } else if (!eduinfo) {
+        router.push("/personal-info/education-info");
+      } else if (!tandcinfo) {
+        router.push("/residential-info/terms&conditions");
+      } else {
+        router.push("/dashboard");
+      }
+    },
+    [addFormValues, basicinfo, eduinfo, tandcinfo, router]
+  );
 
-  const nextButton = () => {
+  const nextButton = useCallback(() => {
     if (isFilled) {
-      route.push("/residential-info/termsandconditionsform");
+      router.push("/residential-info/terms&conditions");
     }
-  };
+  }, [isFilled, router]);
 
-  const previousButton = () => {
-    route.push("/personal-info/educationinformationform");
-  };
+  const previousButton = useCallback(() => {
+    router.push("/personal-info/education-info");
+  }, [router]);
 
   useEffect(() => {
     if (addinfo) {
-      reset({
-        ...addinfo,
-      });
+      reset(addinfo);
     }
   }, [addinfo, reset]);
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-100 to-white px-4 py-8">
+    <div className="flex items-center justify-center min-h-[91.2vh]  px-4">
       <Card className="w-full max-w-xl border border-gray-300 shadow-lg rounded-3xl">
         <CardHeader className="pb-2 border-b">
           <CardTitle className="text-center text-3xl font-semibold text-gray-800">
-            Address Information
+            {taddress("header.title")}
           </CardTitle>
         </CardHeader>
+
         <CardContent className="p-6 space-y-6">
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             {/* Address */}
             <div className="space-y-2">
               <Label htmlFor="address" className="text-gray-700 font-medium">
-                Address
+                {taddress("addresslabel")}
               </Label>
               <Input
-                disabled={isFilled}
                 id="address"
                 placeholder="Enter your address"
+                disabled={isFilled}
                 {...register("address")}
               />
               {errors.address && (
@@ -302,12 +307,12 @@ const AddressInfoForm = () => {
             {/* City */}
             <div className="space-y-2">
               <Label htmlFor="city" className="text-gray-700 font-medium">
-                City
+                {taddress("city")}
               </Label>
               <Input
-                disabled={isFilled}
                 id="city"
                 placeholder="Enter your city"
+                disabled={isFilled}
                 {...register("city")}
               />
               {errors.city && (
@@ -318,12 +323,12 @@ const AddressInfoForm = () => {
             {/* State */}
             <div className="space-y-2">
               <Label htmlFor="state" className="text-gray-700 font-medium">
-                State
+                {taddress("state")}
               </Label>
               <Input
-                disabled={isFilled}
                 id="state"
                 placeholder="Enter your state"
+                disabled={isFilled}
                 {...register("state")}
               />
               {errors.state && (
@@ -334,12 +339,12 @@ const AddressInfoForm = () => {
             {/* Postal Code */}
             <div className="space-y-2">
               <Label htmlFor="postalCode" className="text-gray-700 font-medium">
-                Postal Code
+                {taddress("postalcode")}
               </Label>
               <Input
-                disabled={isFilled}
                 id="postalCode"
                 placeholder="Enter your postal code"
+                disabled={isFilled}
                 {...register("postalCode")}
               />
               {errors.postalCode && (
@@ -355,18 +360,18 @@ const AddressInfoForm = () => {
               className="w-full text-white py-2 rounded-xl"
               disabled={isFilled}
             >
-              Submit
+              {taccount("submit")}
             </Button>
           </form>
         </CardContent>
-        {/* extra button */}
-        <div className="px-4 flex justify-between">
-          <Button className="w-1/4 " onClick={previousButton}>
-            Previous
+
+        {/* Navigation Buttons */}
+        <div className="px-4 flex justify-between pb-4">
+          <Button className="w-1/4" onClick={previousButton}>
+            {taccount("previous")}
           </Button>
-          <Button className="w-1/4 " disabled={!isFilled} onClick={nextButton}>
-            {" "}
-            Next{" "}
+          <Button className="w-1/4" disabled={!isFilled} onClick={nextButton}>
+            {taccount("nextbtn")}
           </Button>
         </div>
       </Card>
