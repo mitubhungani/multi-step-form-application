@@ -6,6 +6,9 @@
       "continueformbtn": "Continue Form",
       "resetbtn": "Reset Form"
     },
+    "form": {
+      "title": "Forms"
+    },
     "personalinfo": {
       "title": "Personal Information"
     },

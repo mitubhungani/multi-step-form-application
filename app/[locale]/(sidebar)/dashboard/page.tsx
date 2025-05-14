@@ -229,7 +229,7 @@ import Link from "next/link";
 import { useTranslations } from "next-intl";
 
 const Dashboard = () => {
-   const t = useTranslations('dashboard');
+  const t = useTranslations("dashboard");
   const router = useRouter();
 
   const formInfo = {
@@ -288,18 +288,18 @@ const Dashboard = () => {
     filled: boolean | undefined,
     path: string
   ) => (
-    <div className="flex justify-between items-center py-2 px-4 border rounded-lg mb-3">
+    <div className="flex justify-between items-center py-2 px-4 bg-gray-100 rounded-lg my-3">
       <span className="text-sm font-medium text-gray-800">{title}</span>
       <div className="flex items-center gap-3">
         <span
           className={`text-sm ${filled ? "text-green-600" : "text-red-500"}`}
         >
-          {filled ? t("status.filled") : t("status.notdone") }
+          {filled ? t("status.filled") : t("status.notdone")}
         </span>
 
         {filled && (
           <Button variant="outline" onClick={() => navigateTo(path)}>
-            {t('buttons.view')} <FaRegEye />
+            {t("buttons.view")} <FaRegEye />
           </Button>
         )}
       </div>
@@ -309,9 +309,9 @@ const Dashboard = () => {
   return (
     <div className="container mx-auto p-6 ">
       {/* Progress bar */}
-      <div className="bg-white rounded-lg shadow-lg p-6 mb-8">
+      <div className="bg-gray-50 rounded-lg border p-6 mb-8">
         <h2 className="text-2xl font-bold mb-4 text-gray-800">
-            {t('progreshbar.title')}
+          {t("progreshbar.title")}
         </h2>
         <div className="flex items-center gap-4 mb-6">
           <div className="w-full bg-gray-200 rounded-full h-2.5">
@@ -335,32 +335,38 @@ const Dashboard = () => {
               percentage === 100 ? "opacity-50 cursor-not-allowed" : ""
             }
           >
-            {percentage === 100 ? t("progreshbar.completebtn") : t("progreshbar.continueformbtn")}
+            {percentage === 100
+              ? t("progreshbar.completebtn")
+              : t("progreshbar.continueformbtn")}
           </Button>
           <Button variant="destructive" onClick={resetForm}>
             {t("progreshbar.resetbtn")}
           </Button>
         </div>
       </div>
-
+              <div>
+                <h1 className="text-3xl font-semibold">{t("form.title")}</h1>
+              </div>
       {/* Dropdown Sections */}
       <Accordion type="multiple" className="space-y-4">
-        <AccordionItem value="personal-info">
+        <AccordionItem
+          value="personal-info"
+          className="my-4 border rounded-xl p-3"
+        >
           <AccordionTrigger className="text-lg font-semibold">
-            {t('personalinfo.title')}
+            {t("personalinfo.title")}
           </AccordionTrigger>
           <AccordionContent>
             <Link href="/personal-info/create-account">
               {renderFormRow(
-                t('personalinform.title'),
+                t("personalinform.title"),
                 formInfo.createaccount.data?.filled,
                 "/personal-info/create-account"
               )}
             </Link>
-
             <Link href="/personal-info/education-info">
               {renderFormRow(
-                t('educationinfo.title'),
+                t("educationinfo.title"),
                 formInfo.education.data?.filled,
                 "/personal-info/education-info"
               )}
@@ -368,21 +374,24 @@ const Dashboard = () => {
           </AccordionContent>
         </AccordionItem>
 
-        <AccordionItem value="residential-info">
+        <AccordionItem
+          value="residential-info"
+          className="my-4 border rounded-xl p-3"
+        >
           <AccordionTrigger className="text-lg font-semibold">
-             {t('residentialinfo.title')}
+            {t("residentialinfo.title")}
           </AccordionTrigger>
           <AccordionContent>
             <Link href="/residential-info/address-info">
               {renderFormRow(
-                 t('addressinfo.title'),
+                t("addressinfo.title"),
                 formInfo.address.data?.filled,
                 "/residential-info/address-info"
               )}
             </Link>
             <Link href="/residential-info/terms&conditions">
               {renderFormRow(
-                t('termsandconditions.title'),
+                t("termsandconditions.title"),
                 formInfo.terms.data?.filled,
                 "/residential-info/terms&conditions"
               )}
