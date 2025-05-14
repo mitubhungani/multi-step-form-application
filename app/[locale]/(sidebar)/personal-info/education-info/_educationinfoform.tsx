@@ -370,7 +370,6 @@ export default function EducationInfoForm() {
               <Label htmlFor="passingYear">{tEducation("passing-year")}</Label>
               <Input
                 id="passingYear"
-                type="number"
                 max={new Date().getFullYear()}
                 {...register("passingYear", { valueAsNumber: true })}
                 disabled={eduInfo?.filled}
@@ -388,7 +387,6 @@ export default function EducationInfoForm() {
               <Label htmlFor="cgpa">{tEducation("cgpa")}</Label>
               <Input
                 id="cgpa"
-                type="number"
                 step="0.01"
                 {...register("cgpa", { valueAsNumber: true })}
                 disabled={eduInfo?.filled}

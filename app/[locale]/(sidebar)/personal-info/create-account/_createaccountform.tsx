@@ -282,12 +282,10 @@ const CreateAccountFormm = () => {
 
   useEffect(() => {
     if (basicinfo) {
-      reset({
-        ...basicinfo,
-        gender: basicinfo.gender as "male" | "female" | undefined,
-      });
+      reset({ ...basicinfo });
     }
   }, [basicinfo, reset]);
+  
 
   return (
     <div className="flex items-center justify-center min-h-[91.2vh]  px-4 ">

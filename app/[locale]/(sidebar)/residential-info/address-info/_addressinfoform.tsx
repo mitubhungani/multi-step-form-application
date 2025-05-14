@@ -296,7 +296,6 @@ const AddressInfoForm = () => {
               <Input
                 id="address"
                 placeholder="Enter your address"
-                autoComplete="off"
                 disabled={isFilled}
                 {...register("address")}
               />
@@ -313,7 +312,6 @@ const AddressInfoForm = () => {
               <Input
                 id="city"
                 placeholder="Enter your city"
-                autoComplete="off"
                 disabled={isFilled}
                 {...register("city")}
               />
@@ -330,7 +328,6 @@ const AddressInfoForm = () => {
               <Input
                 id="state"
                 placeholder="Enter your state"
-                autoComplete="off"
                 disabled={isFilled}
                 {...register("state")}
               />
@@ -347,7 +344,6 @@ const AddressInfoForm = () => {
               <Input
                 id="postalCode"
                 placeholder="Enter your postal code"
-                autoComplete="off"
                 disabled={isFilled}
                 {...register("postalCode")}
               />
