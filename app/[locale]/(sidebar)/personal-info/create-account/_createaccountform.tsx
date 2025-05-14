@@ -229,6 +229,7 @@ import { CreateAccountForm } from "@/types/type";
 const CreateAccountFormm = () => {
   const tAccount = useTranslations("account");
   const tError = useTranslations("account.errors");
+  const tPlaceholder = useTranslations("account.placeholder");
 
   const route = useRouter();
 
@@ -304,7 +305,7 @@ const CreateAccountFormm = () => {
               </Label>
               <Input
                 id="username"
-                placeholder="e.g. john_doe"
+                placeholder={tPlaceholder("username")}
                 {...register("username")}
                 disabled={isFilled}
               />
@@ -323,7 +324,7 @@ const CreateAccountFormm = () => {
               <Input
                 id="email"
                 type="email"
-                placeholder="example@mail.com"
+                placeholder={tPlaceholder("email")}
                 {...register("email")}
                 disabled={isFilled}
               />
@@ -340,7 +341,7 @@ const CreateAccountFormm = () => {
               <Input
                 id="password"
                 type="password"
-                placeholder="••••••••"
+                placeholder={tPlaceholder("password")}
                 {...register("password")}
                 disabled={isFilled}
               />

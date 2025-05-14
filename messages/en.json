@@ -54,6 +54,11 @@
       "password_min": "Password must be at least 6 characters",
       "gender_required": "Gender is required"
     },
+    "placeholder":{
+      "username": "Enter your username",
+      "email": "Enter your email address",
+      "password": "Enter your password"
+    },
     "username": "Username",
     "email": "Email",
     "password": "Password",
@@ -74,6 +79,12 @@
       "passing_year_invalid": "Enter a valid year between 1900 and current year",
       "cgpa_invalid": "CGPA must be between 0 and 10"
     },
+    "placeholder":{
+      "degree": "Select your degree",
+    "university": "Enter University Name",
+    "passing-year": "Enter Passing Year",
+    "cgpa": "Enter CGPA"
+    },
     "degree": "Degree",
     "university": "University",
     "passing-year": "Passing Year",
@@ -88,6 +99,12 @@
       "city_required": "City is required",
       "state_required": "State is required",
       "postalcode_invalid": "Postal code must be 5 to 6 digits"
+    },
+    "placeholder":{
+      "address": "Enter your address",
+      "city": "Enter your city",
+      "state": "Enter your state",
+      "postalcode": "Enter your postal code"
     },
     "addresslabel": "Address",
     "city": "City",

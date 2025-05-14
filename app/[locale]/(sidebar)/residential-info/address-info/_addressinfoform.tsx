@@ -212,6 +212,7 @@ const AddressInfoForm = () => {
   const taddress = useTranslations("address");
   const taccount = useTranslations("account");
   const tError = useTranslations("address.errors");
+  const tPlaceholder = useTranslations("address.placeholder");
 
   const router = useRouter();
 
@@ -295,7 +296,7 @@ const AddressInfoForm = () => {
               </Label>
               <Input
                 id="address"
-                placeholder="Enter your address"
+                placeholder={tPlaceholder("address")}
                 disabled={isFilled}
                 {...register("address")}
               />
@@ -311,7 +312,7 @@ const AddressInfoForm = () => {
               </Label>
               <Input
                 id="city"
-                placeholder="Enter your city"
+                placeholder= {tPlaceholder("city")}
                 disabled={isFilled}
                 {...register("city")}
               />
@@ -327,7 +328,7 @@ const AddressInfoForm = () => {
               </Label>
               <Input
                 id="state"
-                placeholder="Enter your state"
+                placeholder={tPlaceholder("state")}
                 disabled={isFilled}
                 {...register("state")}
               />
@@ -343,7 +344,7 @@ const AddressInfoForm = () => {
               </Label>
               <Input
                 id="postalCode"
-                placeholder="Enter your postal code"
+                placeholder={tPlaceholder("postalcode")}
                 disabled={isFilled}
                 {...register("postalCode")}
               />

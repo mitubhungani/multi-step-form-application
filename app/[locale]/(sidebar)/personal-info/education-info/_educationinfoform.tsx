@@ -250,6 +250,7 @@ import { EducationInformationForm } from "@/types/type";
 export default function EducationInfoForm() {
   const tEducation = useTranslations("education");
   const tError = useTranslations("education.errors");
+  const tPlaceholder = useTranslations("education.placeholder");
   const taccount = useTranslations("account");
   const router = useRouter();
 
@@ -333,7 +334,7 @@ export default function EducationInfoForm() {
                     disabled={eduInfo?.filled}
                   >
                     <SelectTrigger id="degree">
-                      <SelectValue placeholder="Select your degree" />
+                      <SelectValue placeholder={tPlaceholder("degree")} />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="bca">BCA</SelectItem>
@@ -356,7 +357,7 @@ export default function EducationInfoForm() {
                 id="university"
                 {...register("university")}
                 disabled={eduInfo?.filled}
-                placeholder="University name"
+                placeholder={tPlaceholder("university")}
               />
               {errors.university && (
                 <p className="text-sm text-red-600">
@@ -373,7 +374,7 @@ export default function EducationInfoForm() {
                 max={new Date().getFullYear()}
                 {...register("passingYear", { valueAsNumber: true })}
                 disabled={eduInfo?.filled}
-                placeholder="Passing Year"
+                placeholder={tPlaceholder("passing-year")}
               />
               {errors.passingYear && (
                 <p className="text-sm text-red-600">
@@ -390,7 +391,7 @@ export default function EducationInfoForm() {
                 step="0.01"
                 {...register("cgpa", { valueAsNumber: true })}
                 disabled={eduInfo?.filled}
-                placeholder="CGPA"
+                placeholder={tPlaceholder("cgpa")}
               />
               {errors.cgpa && (
                 <p className="text-sm text-red-600">{errors.cgpa.message}</p>
