@@ -227,6 +227,8 @@ import useTermsAndConditionsForm from "@/store/Terms&Conditions-Store/form";
 import useEducationInfoForm from "@/store/Education-Info-Store/from";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
+import { IoCheckmarkDoneCircle } from "react-icons/io5";
+import { IoIosCloseCircle } from "react-icons/io";
 
 const Dashboard = () => {
   const t = useTranslations("dashboard");
@@ -288,18 +290,27 @@ const Dashboard = () => {
     filled: boolean | undefined,
     path: string
   ) => (
-    <div className="flex justify-between items-center py-2 px-4 bg-gray-100 rounded-lg my-3">
-      <span className="text-sm font-medium text-gray-800">{title}</span>
+    <div className="flex items-center justify-between px-5 py-4 bg-gray-100 rounded-xl my-4">
+      {/* Status Icon */}
       <div className="flex items-center gap-3">
-        <span
-          className={`text-sm ${filled ? "text-green-600" : "text-red-500"}`}
+        <div
+          className={`text-2xl ${filled ? "text-green-600" : "text-red-500"}`}
         >
-          {filled ? t("status.filled") : t("status.notdone")}
-        </span>
+          {filled ? <IoCheckmarkDoneCircle /> : <IoIosCloseCircle />}
+        </div>
+        <span className="text-base font-semibold text-gray-700">{title}</span>
+      </div>
 
+      {/* Action Button */}
+      <div>
         {filled && (
-          <Button variant="outline" onClick={() => navigateTo(path)}>
-            {t("buttons.view")} <FaRegEye />
+          <Button
+            variant="outline"
+            className="flex items-center gap-2 text-sm font-medium hover:bg-gray-100"
+            onClick={() => navigateTo(path)}
+          >
+            <FaRegEye className="text-base" />
+            {t("buttons.view")}
           </Button>
         )}
       </div>
@@ -339,14 +350,20 @@ const Dashboard = () => {
               ? t("progreshbar.completebtn")
               : t("progreshbar.continueformbtn")}
           </Button>
-          <Button variant="destructive" onClick={resetForm}>
-            {t("progreshbar.resetbtn")}
-          </Button>
+          {percentage <= 99 ? (
+            <Button disabled variant="destructive" onClick={resetForm}>
+              {t("progreshbar.resetbtn")}
+            </Button>
+          ) : (
+            <Button variant="destructive" onClick={resetForm}>
+              {t("progreshbar.resetbtn")}
+            </Button>
+          )}
         </div>
       </div>
-              <div>
-                <h1 className="text-3xl font-semibold">{t("form.title")}</h1>
-              </div>
+      <div>
+        <h1 className="text-3xl font-semibold">{t("form.title")}</h1>
+      </div>
       {/* Dropdown Sections */}
       <Accordion type="multiple" className="space-y-4">
         <AccordionItem
