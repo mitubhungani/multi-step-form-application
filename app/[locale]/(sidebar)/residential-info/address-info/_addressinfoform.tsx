@@ -209,19 +209,23 @@ import { useTranslations } from "next-intl";
 import { AddressInformationForm } from "@/types/type";
 
 const AddressInfoForm = () => {
+  // multilanguage support
   const taddress = useTranslations("address");
   const taccount = useTranslations("account");
   const tError = useTranslations("address.errors");
   const tPlaceholder = useTranslations("address.placeholder");
 
+  // route navigation
   const router = useRouter();
 
+  //zustand form values
   const basicinfo = useCreateAccountForm((s) => s.basic);
   const eduinfo = useEducationInfoForm((s) => s.basic);
   const tandcinfo = useTermsAndConditionsForm((s) => s.basic);
   const addFormValues = useAddressInfoForm((s) => s.addFormValues);
   const addinfo = useAddressInfoForm((s) => s.basic);
 
+  // zode form validation
   const schema = z.object({
     address: z.string().min(1, { message: tError("address_required") }),
     city: z.string().min(1, { message: tError("city_required") }),
@@ -234,6 +238,7 @@ const AddressInfoForm = () => {
     filled: z.boolean().default(false).optional(),
   });
 
+  // form initial values
   const {
     register,
     handleSubmit,
@@ -243,8 +248,10 @@ const AddressInfoForm = () => {
     resolver: zodResolver(schema),
   });
 
+  // form field values
   const isFilled = addinfo?.filled ?? false;
 
+  // form submission
   const onSubmit = useCallback(
     (data: AddressInformationForm) => {
       addFormValues({ ...data, filled: true });
@@ -262,16 +269,19 @@ const AddressInfoForm = () => {
     [addFormValues, basicinfo, eduinfo, tandcinfo, router]
   );
 
+  // form navigation
   const nextButton = useCallback(() => {
     if (isFilled) {
       router.push("/residential-info/terms&conditions");
     }
   }, [isFilled, router]);
 
+  // form navigation
   const previousButton = useCallback(() => {
     router.push("/personal-info/education-info");
   }, [router]);
 
+  // reset form values on page change
   useEffect(() => {
     if (addinfo) {
       reset(addinfo);
@@ -312,7 +322,7 @@ const AddressInfoForm = () => {
               </Label>
               <Input
                 id="city"
-                placeholder= {tPlaceholder("city")}
+                placeholder={tPlaceholder("city")}
                 disabled={isFilled}
                 {...register("city")}
               />
