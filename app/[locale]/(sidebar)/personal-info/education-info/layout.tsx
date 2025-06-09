@@ -9,19 +9,16 @@ export default function Validation({
 }: {
   children: React.ReactNode;
 }) {
-    const basicInfo = useCreateAccountForm((s) => s.basic);
-    // console.log("basicInfo", basicInfo);
-    
-    
+  const basicInfo = useCreateAccountForm((s) => s.basic);
+  
   const router = useRouter();
   const [isValid, setIsValid] = useState<boolean | null>(null);
 
   useEffect(() => {
-    
     if (!basicInfo) {
       router.replace("/personal-info/create-account");
     } else {
-      router.replace('/personal-info/education-info');
+      router.replace("/personal-info/education-info");
       setIsValid(true);
     }
   }, [basicInfo]);
